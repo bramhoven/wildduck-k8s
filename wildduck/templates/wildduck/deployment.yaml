@@ -1,43 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "wildduck.webmail.fullname" . }}
+  name: {{ include "wildduck.wildduck.fullname" . }}
   labels:
-    {{- include "wildduck.webmail.labels" . | nindent 4 }}
+    {{- include "wildduck.wildduck.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.webmail.autoscaling.enabled }}
-  replicas: {{ .Values.webmail.replicaCount }}
+  {{- if not .Values.wildduck.autoscaling.enabled }}
+  replicas: {{ .Values.wildduck.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "wildduck.webmail.selectorLabels" . | nindent 6 }}
+      {{- include "wildduck.wildduck.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.webmail.podAnnotations }}
+      {{- with .Values.wildduck.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "wildduck.webmail.selectorLabels" . | nindent 8 }}
+        {{- include "wildduck.wildduck.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.webmail.imagePullSecrets }}
+      {{- with .Values.wildduck.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "wildduck.webmail.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.webmail.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.wildduck.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.webmail.securityContext | nindent 12 }}
-          image: "{{ .Values.webmail.image.repository }}:{{ .Values.webmail.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.webmail.image.pullPolicy }}
-          args:
-          - "--config=./config/webmail.toml"
+            {{- toYaml .Values.wildduck.securityContext | nindent 12 }}
+          image: "{{ .Values.wildduck.image.repository }}:{{ .Values.wildduck.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.wildduck.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: 8080
+              protocol: TCP
+            - name: imaps
+              containerPort: 143
+              protocol: TCP
+            - name: pop3s
+              containerPort: 110
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -50,24 +53,23 @@ spec:
               port: http
               scheme: HTTP
           resources:
-            {{- toYaml .Values.webmail.resources | nindent 12 }}
+            {{- toYaml .Values.wildduck.resources | nindent 12 }}
           volumeMounts:
-          - name: {{ include "wildduck.webmail.fullname" . }}-config-volume
-            mountPath: /app/config/webmail.toml
-            subPath: webmail.toml
+          - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
+            mountPath: /wildduck/config
       volumes:
-        - name: {{ include "wildduck.webmail.fullname" . }}-config-volume
+        - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
           configMap:
-            name: {{ include "wildduck.webmail.fullname" . }}-configmap
-      {{- with .Values.webmail.nodeSelector }}
+            name: {{ include "wildduck.wildduck.fullname" . }}-configmap
+      {{- with .Values.wildduck.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.webmail.affinity }}
+      {{- with .Values.wildduck.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.webmail.tolerations }}
+      {{- with .Values.wildduck.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

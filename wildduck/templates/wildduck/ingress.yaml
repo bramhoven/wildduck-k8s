@@ -1,9 +1,9 @@
-{{- if .Values.webmail.ingress.enabled -}}
+{{- if .Values.wildduck.ingress.enabled -}}
 {{- $fullName := include "wildduck.fullname" . -}}
-{{- $svcPort := .Values.webmail.service.port -}}
-{{- if and .Values.webmail.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.webmail.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.webmail.ingress.annotations "kubernetes.io/ingress.class" .Values.webmail.ingress.className}}
+{{- $svcPort := .Values.wildduck.service.port -}}
+{{- if and .Values.wildduck.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.wildduck.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.wildduck.ingress.annotations "kubernetes.io/ingress.class" .Values.wildduck.ingress.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -18,17 +18,17 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "wildduck.labels" . | nindent 4 }}
-  {{- with .Values.webmail.ingress.annotations }}
+  {{- with .Values.wildduck.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.webmail.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.webmail.ingress.className }}
+  {{- if and .Values.wildduck.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.wildduck.ingress.className }}
   {{- end }}
-  {{- if .Values.webmail.ingress.tls }}
+  {{- if .Values.wildduck.ingress.tls }}
   tls:
-    {{- range .Values.webmail.ingress.tls }}
+    {{- range .Values.wildduck.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -37,7 +37,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.webmail.ingress.hosts }}
+    {{- range .Values.wildduck.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:

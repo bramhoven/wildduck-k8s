@@ -3,11 +3,11 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "wildduck.webmail.fullname" -}}
-{{- if .Values.webmail.fullnameOverride }}
-{{- .Values.webmail.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "wildduck.wildduck.fullname" -}}
+{{- if .Values.wildduck.fullnameOverride }}
+{{- .Values.wildduck.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Values.webmail.name .Values.webmail.nameOverride }}
+{{- $name := default .Values.wildduck.name .Values.wildduck.nameOverride }}
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -19,16 +19,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "wildduck.webmail.chart" -}}
+{{- define "wildduck.wildduck.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "wildduck.webmail.labels" -}}
-helm.sh/chart: {{ include "wildduck.webmail.chart" . }}
-{{ include "wildduck.webmail.selectorLabels" . }}
+{{- define "wildduck.wildduck.labels" -}}
+helm.sh/chart: {{ include "wildduck.wildduck.chart" . }}
+{{ include "wildduck.wildduck.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -38,18 +38,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "wildduck.webmail.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "wildduck.webmail.fullname" . }}
+{{- define "wildduck.wildduck.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "wildduck.wildduck.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "wildduck.webmail.serviceAccountName" -}}
-{{- if .Values.serviceAccount.webmail.create }}
-{{- default (include "wildduck.webmail.fullname" .) .Values.serviceAccount.webmail.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.webmail.name }}
-{{- end }}
 {{- end }}

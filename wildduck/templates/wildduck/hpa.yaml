@@ -1,4 +1,4 @@
-{{- if .Values.webmail.autoscaling.enabled }}
+{{- if .Values.wildduck.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -10,19 +10,19 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "wildduck.fullname" . }}
-  minReplicas: {{ .Values.webmail.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.webmail.autoscaling.maxReplicas }}
+  minReplicas: {{ .Values.wildduck.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.wildduck.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.webmail.autoscaling.targetCPUUtilizationPercentage }}
+    {{- if .Values.wildduck.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: {{ .Values.webmail.autoscaling.targetCPUUtilizationPercentage }}
+        targetAverageUtilization: {{ .Values.wildduck.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
-    {{- if .Values.webmail.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- if .Values.wildduck.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
-        targetAverageUtilization: {{ .Values.webmail.autoscaling.targetMemoryUtilizationPercentage }}
+        targetAverageUtilization: {{ .Values.wildduck.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
 {{- end }}

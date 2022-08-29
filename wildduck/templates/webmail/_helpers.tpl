@@ -42,14 +42,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "wildduck.webmail.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "wildduck.webmail.serviceAccountName" -}}
-{{- if .Values.serviceAccount.webmail.create }}
-{{- default (include "wildduck.webmail.fullname" .) .Values.serviceAccount.webmail.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.webmail.name }}
-{{- end }}
-{{- end }}

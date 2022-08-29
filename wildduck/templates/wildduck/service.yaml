@@ -1,13 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{include "wildduck.webmail.fullname" .}}
-  labels: {{- include "wildduck.webmail.labels" . | nindent 4}}
+  name: {{include "wildduck.wildduck.fullname" .}}
+  labels: {{- include "wildduck.wildduck.labels" . | nindent 4}}
 spec:
-  type: {{.Values.webmail.service.type}}
+  type: {{.Values.wildduck.service.type}}
   ports:
-    - port: {{.Values.webmail.service.port}}
+    - port: {{.Values.wildduck.service.httpPort}}
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "wildduck.webmail.selectorLabels" . | nindent 4}}
+    - port: {{.Values.wildduck.service.imapsPort}}
+      targetPort: imaps
+      protocol: TCP
+      name: imaps
+    - port: {{.Values.wildduck.service.pop3sPort}}
+      targetPort: pop3s 
+      protocol: TCP
+      name: pop3s
+  selector: {{- include "wildduck.wildduck.selectorLabels" . | nindent 4}}
