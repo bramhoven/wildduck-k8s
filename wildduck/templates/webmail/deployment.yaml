@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wildduck.webmail.fullname" . }}
+  labels:
+    {{- include "wildduck.webmail.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.webmail.autoscaling.enabled }}
+  replicas: {{ .Values.webmail.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "wildduck.webmail.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.webmail.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "wildduck.webmail.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.webmail.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "wildduck.webmail.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.webmail.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.webmail.securityContext | nindent 12 }}
+          image: "{{ .Values.webmail.image.repository }}:{{ .Values.webmail.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.webmail.image.pullPolicy }}
+          args:
+          - "--config=./config/webmail.toml"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+          resources:
+            {{- toYaml .Values.webmail.resources | nindent 12 }}
+          volumeMounts:
+          - name: {{ include "wildduck.webmail.fullname" . }}-config-volume
+            mountPath: /app/config/webmail.toml
+            subPath: webmail.toml
+      volumes:
+        - name: {{ include "wildduck.webmail.fullname" . }}-config-volume
+          configMap:
+            name: {{ include "wildduck.webmail.fullname" . }}-configmap
+      {{- with .Values.webmail.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webmail.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webmail.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

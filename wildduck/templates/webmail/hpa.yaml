@@ -1,0 +1,28 @@
+{{- if .Values.webmail.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "wildduck.fullname" . }}
+  labels:
+    {{- include "wildduck.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "wildduck.fullname" . }}
+  minReplicas: {{ .Values.webmail.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.webmail.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.webmail.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.webmail.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.webmail.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.webmail.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

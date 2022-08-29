@@ -1,0 +1,5 @@
+# These values are used for development in local cluster
+
+webmail:
+  redisHost: redis-1661516233-headless
+  redisPassword: redis
