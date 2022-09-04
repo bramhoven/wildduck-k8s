@@ -1,5 +1,17 @@
 # These values are used for development in local cluster
 
+redis:
+  host: redis-1661516233-master.default.svc.cluster.local
+  password: redis
+
+wildduck:
+  mongo:
+    host: mongodb-1662328718.default.svc.cluster.local
+    username: wildduck
+    password: wildduck
+
 webmail:
-  redisHost: redis-1661516233-headless
-  redisPassword: redis
+  mongo:
+    host: mongodb-1662328718.default.svc.cluster.local
+    username: wildduck-webmail
+    password: wildduck-webmail

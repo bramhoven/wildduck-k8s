@@ -5,6 +5,15 @@
 nameOverride: ""
 fullnameOverride: ""
 
+mailDomain: mail.wildduck.lan
+webMailDomain: wildduck.lan
+
+redis:
+  host: redis
+  port: 6379
+  username:
+  password:
+
 serviceAccount:
   wildduck:
     # Specifies whether a service account should be created
@@ -101,12 +110,9 @@ wildduck:
 
   affinity: {}
 
-  mailDomain: mail.wildduck.lan
-  webMailDomain: wildduck.lan
-
-  redis:
-    host: redis
-    port: 6379
+  mongo:
+    host: mongo
+    port: 27017
     username:
     password:
 
@@ -186,11 +192,8 @@ webmail:
 
   affinity: {}
 
-  mailDomain: mail.wildduck.lan
-  webMailDomain: wildduck.lan
-
-  redis:
-    host: redis
-    port: 6379
+  mongo:
+    host: mongo
+    port: 27017
     username:
     password:
