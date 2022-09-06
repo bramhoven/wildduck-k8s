@@ -44,12 +44,12 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /users
               port: http
               scheme: HTTP
           readinessProbe:
             httpGet:
-              path: /
+              path: /users
               port: http
               scheme: HTTP
           resources:

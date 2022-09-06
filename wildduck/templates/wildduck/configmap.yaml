@@ -46,7 +46,7 @@ data:
     # @include "attachments.toml"
 
     [log]
-        level="error"
+        level="debug"
 
         skipFetchLog=false # if true, then does not output individual * FETCH responses to log
 
@@ -209,7 +209,7 @@ data:
     mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck"
 
     # redis connection string to connect to a single master (see below for Sentinel example)
-    #redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/3"
+    redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/3"
 
     # WildDuck allows using different kind of data in different databases
     # If you do not provide a database config value, then main database connection
