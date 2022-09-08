@@ -47,11 +47,17 @@ spec:
               path: /users
               port: http
               scheme: HTTP
+              httpHeaders:
+              - name: X-Access-Token
+                value:  {{ .Values.wildduck.auth.accessToken }}
           readinessProbe:
             httpGet:
               path: /users
               port: http
               scheme: HTTP
+              httpHeaders:
+              - name: X-Access-Token
+                value:  {{ .Values.wildduck.auth.accessToken }}
           resources:
             {{- toYaml .Values.wildduck.resources | nindent 12 }}
           volumeMounts:

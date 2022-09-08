@@ -61,6 +61,10 @@ wildduck:
     # runAsNonRoot: true
     # runAsUser: 1000
 
+  auth:
+    enabled: true
+    accessToken: "wildduck1234"
+
   service:
     type: ClusterIP
     httpPort: 80

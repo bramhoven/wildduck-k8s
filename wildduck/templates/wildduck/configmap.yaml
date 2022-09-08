@@ -142,7 +142,9 @@ data:
 
     # If set requires all API calls to have accessToken query argument with that value
     # http://localhost:8080/users?accessToken=somesecretvalue
-    #accessToken="somesecretvalue"
+    {{ if .Values.wildduck.auth.enabled }}
+    accessToken="{{ .Values.wildduck.auth.accessToken }}"
+    {{ end }}
 
     [accessControl]
     # If true then require a valid access token to perform API calls
