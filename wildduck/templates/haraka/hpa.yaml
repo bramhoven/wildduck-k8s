@@ -1,0 +1,28 @@
+{{- if .Values.haraka.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "wildduck.fullname" . }}
+  labels:
+    {{- include "wildduck.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "wildduck.fullname" . }}
+  minReplicas: {{ .Values.haraka.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.haraka.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.haraka.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.haraka.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.haraka.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.haraka.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

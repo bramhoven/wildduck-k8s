@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wildduck.haraka.fullname" . }}
+  labels:
+    {{- include "wildduck.haraka.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.haraka.autoscaling.enabled }}
+  replicas: {{ .Values.haraka.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "wildduck.haraka.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.haraka.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "wildduck.haraka.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.haraka.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.haraka.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.haraka.securityContext | nindent 12 }}
+          image: "{{ .Values.haraka.image.repository }}:{{ .Values.haraka.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.haraka.image.pullPolicy }}
+          ports:
+            - name: smtp 
+              containerPort: 25
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: smtp
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: smtp 
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.haraka.resources | nindent 12 }}
+          volumeMounts:
+          - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
+            mountPath: /app/config
+      volumes:
+        - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
+          configMap:
+            name: {{ include "wildduck.haraka.fullname" . }}-configmap
+      {{- with .Values.haraka.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.haraka.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.haraka.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

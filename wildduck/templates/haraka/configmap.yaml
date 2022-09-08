@@ -1,0 +1,1232 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "wildduck.haraka.fullname" . }}-configmap"
+data:
+  access.domains: |-
+    # Basic whitelist/blacklist mechanism for domains and e-mail addresses
+    # add a single domain or e-mail per line
+    # default behavior for entries is to DENY or blacklist
+    # reverse behavior by prepending an exclamation point !
+    # foo.com    <-- denied
+    # !foo.com   <-- allowed
+    #
+    # More complex/granular behaviors are possible, e.g.
+    # To block everything claiming to be from aol.com, but still allow a single aol address:
+    # aol.com
+    # !friend@aol.com
+    #
+    # See full docs for details:  http://haraka.github.io/manual/plugins/access.html
+  aliases: |-
+    {
+    }
+  attachment.ctype.regex: |-
+    executable
+    partial
+  attachment.filename.regex: |-
+    \.(?:ade|adp|bat|chm|cmd|com|cpl|dll|exe|hta|ins|isp|jar|js|jse|lib|lnk|mde|msc|msp|mst|pif|scr|sct|shb|sys|vb|vbe|vbs|vxd|wsc|wsf|wsh)$
+  auth_flat_file.ini: |-
+    [core]
+    methods=CRAM-MD5
+
+    [users]
+    ; matt=test
+  auth_vpopmaild.ini: |-
+    host=127.0.0.6
+    port=89
+    ;sysadmin=postmaster@example.com:sekret
+
+    [example.com]
+    host=127.0.0.10
+    ;sysadmin=postmaster@example.com:sekret
+  avg.ini: |-
+    ;host=
+    ;port=54322
+    ;tmpdir=/tmp
+    ;connect_timeout=10
+    ;session_timeout=30
+  bounce.ini: |-
+    ; config/bounce_bad_rcpt: addresses that should never get bounces
+
+    [check]
+    single_recipient=true
+    empty_return_path=true
+    bad_rcpt=true
+
+    ; reject all bounce messages (generally a bad idea)
+    reject_all=false
+
+
+    [reject]
+    single_recipient=true
+    empty_return_path=true
+  connection_close_message: |-
+    closing connection. Have a jolly good day.
+  data.headers.ini: |-
+    ; configuration for data.headers plugin
+
+    ; Requiring a date header will cause the loss of valid mail. The JavaMail
+    ; sender used by some banks, photo processing services, health insurance
+    ; companies, bounce senders, and others send messages without a Date header.
+    ;
+    ; If you can afford to reject some valid mail, please do enforce this, and
+    ; encourage mailers toward RFC adherence. Otherwise, do not require Date.
+
+    ; Headers that MUST be present (RFC 5322)
+    ; required=From,Date   ; <-- RFC 5322 compliant
+    required=From,Date
+
+    ; Received
+    ; If you have no outbound, add 'Received' to the required list for an
+    ; aggressive anti-spam measure. It works because all real mail relays will
+    ; add a `Received` header. It may false positive on some bulk mail that
+    ; uses a custom tool to send, but this appears to be fairly rare.
+
+    ; If the date header is present, and future and/or past days are
+    ; defined, it will be validated. 0 = disabled
+    date_future_days=2
+    date_past_days=15
+
+
+    ; Headers that MUST be unique if present (RFC 5322)
+    ; singular=Date,From,Sender,Reply-To,To,Cc,Bcc,Message-Id,In-Reply-To,References,Subject (RFC 5322)
+    singular=Date,From,Sender,Reply-To,To,Cc,Bcc,Message-Id,In-Reply-To,References,Subject
+
+    ; enable/disable the various header checks
+    [check]
+    ; duplicate_singular=true
+    ; missing_required=true
+    ; invalid_return_path=true
+    ; invalid_date=true
+    ; user_agent=true
+    ; direct_to_mx=true
+    ; from_match=true
+    ; mailing_list=true
+    ; delivered_to=true
+
+
+    [reject]
+    ; reject switches for each header check
+    ; default are shown. Rejecting based on any of these
+    ; criteria will result in the loss of valid mail.
+    ;
+    ; duplicate_singular=false
+    ; missing_required=false
+    ; invalid_return_path=false
+    ; invalid_date=false
+
+    ; arriving messages should not have Delivered-To set to the RCPT TO address.
+    ; delivered_to=true
+
+    ; these 4 do not have reject support, and likely shouldn't.
+    ; user_agent=false
+    ; direct_to_mx=false
+    ; from_match=false
+    ; mailing_list=false
+  data.uribl.excludes: |-
+    # List derived from SpamAssassin
+    126.com
+    163.com
+    2o7.net
+    4at1.com
+    5iantlavalamp.com
+    about.com
+    adelphia.net
+    adobe.com
+    agora-inc.com
+    agoramedia.com
+    akamai.net
+    akamaitech.net
+    alexa.com
+    amazon.com
+    ancestry.com
+    aol.com
+    apache.org
+    apple.com
+    arcamax.com
+    ask.com
+    astrology.com
+    atdmt.com
+    att.net
+    baidu.com
+    bbc.co.uk
+    bcentral.com
+    bellsouth.net
+    bfi0.com
+    bing.com
+    bridgetrack.com
+    cafe24.com
+    charter.net
+    citibank.com
+    citizensbank.com
+    cjb.net
+    classmates.com
+    clickbank.net
+    cnet.com
+    cnn.com
+    comcast.net
+    com.com
+    com.ne.kr
+    corporate-ir.net
+    cox.net
+    craigslist.org
+    cs.com
+    custhelp.com
+    daum.net
+    dd.se
+    debian.org
+    dell.com
+    directnic.com
+    directtrack.com
+    div.tk
+    domain.com
+    doubleclick.com
+    dsbl.org
+    earthlink.net
+    ebay.com
+    ebay.co.uk
+    ebay.de
+    ebayimg.com
+    ebaystatic.com
+    edgesuite.net
+    ediets.com
+    egroups.com
+    emode.com
+    example.com
+    example.net
+    example.org
+    excite.com
+    facebook.com
+    fedex.com
+    flickr.com
+    freebsd.org
+    free.fr
+    f-secure.com
+    gentoo.org
+    geocities.com
+    gmail.com
+    gmx.net
+    go.com
+    godaddy.com
+    googleadservices.com
+    google.co.in
+    google.com
+    google.it
+    grisoft.com
+    hallmark.com
+    hinet.net
+    hotbar.com
+    hotmail.com
+    hotpop.com
+    hp.com
+    ibm.com
+    incredimail.com
+    investorplace.com
+    ivillage.com
+    joingevalia.com
+    juno.com
+    kernel.org
+    li.tk
+    livejournal.com
+    lycos.com
+    m7z.net
+    mac.com
+    macromedia.com
+    mail.com
+    mail.ru
+    mailscanner.info
+    marketwatch.com
+    mcafee.com
+    mchsi.com
+    messagelabs.com
+    microsoft.com
+    military.com
+    mindspring.com
+    mit.edu
+    monster.com
+    mozilla.com
+    msn.com
+    myspace.com
+    nate.com
+    netflix.com
+    netscape.com
+    netscape.net
+    netzero.net
+    norman.com
+    nytimes.com
+    openoffice.org
+    openxmlformats.org
+    optonline.net
+    osdn.com
+    overstock.com
+    pacbell.net
+    pandasoftware.com
+    passport.com
+    paypal.com
+    peoplepc.com
+    plaxo.com
+    prodigy.net
+    p.tk
+    radaruol.com.br
+    real.com
+    redhat.com
+    rediff.com
+    regions.com
+    regionsnet.com
+    rogers.com
+    rr.com
+    sbcglobal.net
+    sec.gov
+    sf.net
+    shaw.ca
+    shockwave.com
+    smithbarney.com
+    sourceforge.net
+    spamcop.net
+    speedera.net
+    sportsline.com
+    sun.com
+    suntrust.com
+    sympatico.ca
+    tails.nl
+    telus.net
+    terra.com.br
+    ticketmaster.com
+    tinyurl.com
+    tiscali.co.uk
+    tom.com
+    tone.co.nz
+    t-online.de
+    tux.org
+    twitter.com
+    uol.com.br
+    ups.com
+    usps.com
+    verizon.net
+    w3.org
+    wamu.com
+    wanadoo.fr
+    washingtonpost.com
+    weatherbug.com
+    web.de
+    webshots.com
+    webtv.net
+    wordpress.com
+    wsj.com
+    xmlsoap.org
+    yahoo.ca
+    yahoo.co.jp
+    yahoo.co.kr
+    yahoo.com
+    yahoo.com.br
+    yahoo.co.uk
+    yahoogroups.com
+    yimg.com
+    yopi.de
+    yoursite.com
+    youtube.com
+    zdnet.com
+  data.uribl.ini: |-
+    ; If DBL not IPv6 compatible set:
+    ; not_ipv6_compatible=1
+
+    [dbl.spamhaus.org]
+    validate=^(?!127\.0\.1\.255)127\.
+    rdns=1
+    helo=1
+    envfrom=1
+    from=1
+    msgid=1
+    body=1
+    no_ip_lookups=1
+    custom_msg={uri} listed in {zone}; see http://www.spamhaus.org/query/dbl?domain={uri}
+
+    [multi.uribl.com]
+    validate=^127
+    strip_to_domain=1
+    ; BLACK list only
+    bitmask=2
+    body=1
+    custom_msg={uri} listed in {zone}; see http://lookup.uribl.com/?domain={uri}
+
+    [multi.surbl.org]
+    validate=^127
+    strip_to_domain=1
+    body=1
+
+    ;[fresh15.spameatingmonkey.net]
+    ;validate=^127
+    ;rdns=1
+    ;helo=1
+    ;envfrom=1
+    ;from=1
+    ;msgid=1
+    ;body=1
+    ;no_ip_lookups=1
+    ;custom_msg={uri} domain registered within the last 15 days; see http://spameatingmonkey.com/lookup/{uri}
+  databytes: |-
+    26214400
+  delay_deny.ini: |-
+    ; excluded plugins: a list of denials that are to be excluded (ie, all the immediate rejection)
+    ; Examples: <plugin>
+    ;           <plugin>:<hook>
+    ;           <plugin>:<hook>:<function name>
+    ; 
+    ;excluded_plugins=spf,lookup_rdns_strict
+  dkim_sign.ini: |-
+    disabled = true
+    selector = mail
+    domain = example.com
+    headers_to_sign = From, Sender, Reply-To, Subject, Date, Message-ID, To, Cc, MIME-Version
+  dnsbl.ini: |-
+    ; reject: (default: true)
+    ;      denies connections from IPs on any active DNSBL
+    reject=true
+
+    ; periodically check each DNSBL, disabling ones that fail checks
+    periodic_checks = 30
+
+    ; search: Default (first)
+    ;     first: consider first DNSBL response conclusive. End processing.
+    ;     all:   process all DNSBL results
+    search=first
+
+    ; enable_stats (Default: false)
+    ;   stores stats in a Redis DB (see plugins/dns_list_base)
+    ;enable_stats=true
+
+    ; stats_redis_host (Default: localhost)
+
+
+    ; zones: a comma separated list of DNSBL zones
+    ;        or list DNSBL zones in config/dnsbl.zones
+    zones=zen.spamhaus.org
+  early_talker.ini: |-
+    ; delay in seconds
+    pause=5
+
+    ; terminate the connection? (default: true)
+    ; reject=false
+
+    ; Whitelist of client IP ranges to skip delay on
+    [ip_whitelist]
+    ::1
+    127.0.0.1
+  greylist.ini: |-
+    ; Config for greylisting plugin
+
+    ; greylisting action text
+    text = Greylisted. Please come back later.
+
+    [redis]
+    host = 127.0.0.1
+    ; port = 6379
+    db = 11
+
+    [skip]
+    ; skip for DNSWL hosts having high reputation
+    dnswlorg = true
+    mailspikewl = true
+
+    [period]
+    # transition path: first_connect --> black (defer) --> grey(allow) --> white (allow) --> expired
+
+    # 14 minutes
+    black = 850
+    # 25 hours
+    grey = 90000
+    # 35 days
+    white = 3024000
+
+    [envelope_whitelist]
+    # Envelope emails or domains, one per line
+
+
+    [ip_whitelist]
+    # IP or Subnet, one per line
+
+
+    [recipient_whitelist]
+    # Recipient emails or domains, one per line
+
+
+    [special_dynamic_domains]
+    # Put domains that should be always treated as dynamic here.
+    # Pattern is matched at the end of rdns
+
+    # SiteGround VPS service
+    sgvps.net
+  helo.checks.ini: |-
+    ; disable checks or reject for each test if you are worried about strictness
+
+    ;dns_timeout=30
+
+    [check]
+    ; match_re=true
+    ; bare_ip=true
+    ; dynamic=true
+    ; big_company=true
+    ; literal_mismatch:  1 = exact IP match, 2 = IP/24 match, 3 = /24 or RFC1918
+    ; literal_mismatch=2
+    ; valid_hostname=true
+    ; forward_dns=true
+    ; rdns_match=true
+    ; host_mismatch:  hostname differs between EHLO invocations
+    ; host_mismatch=true
+    ; proto_mismatch: host sent EHLO but then tries to sent HELO or vice-versa
+    ; proto_mismatch=true
+
+    [reject]
+    ; host_mismatch=true
+    ; proto_mismatch=false
+    ; rdns_match=false
+    ; dynamic=false
+    ; bare_ip=false
+    ; literal_mismatch=false
+    ; valid_hostname=false
+    ; forward_dns=false
+    ; big_company=true
+
+    [skip]
+    ; private_ip=true
+    ; relaying=true
+    ; whitelist=true  ; TODO
+
+    [bigco]
+    msn.com=msn.com
+    hotmail.com=hotmail.com
+    yahoo.com=yahoo.com,yahoo.co.jp
+    yahoo.co.jp=yahoo.com,yahoo.co.jp
+    yahoo.co.uk=yahoo.co.uk
+    excite.com=excite.com,excitenetwork.com
+    mailexcite.com=excite.com,excitenetwork.com
+    yahoo.co.jp=yahoo.com,yahoo.co.jp
+    mailexcite.com=excite.com,excitenetwork.com
+    aol.com=aol.com
+    compuserve.com=compuserve.com,adelphia.net
+    nortelnetworks.com=nortelnetworks.com,nortel.com
+    earthlink.net=earthlink.net
+    earthling.net=earthling.net
+    google.com=google.com
+    gmail.com=google.com,gmail.com
+  host_list: |-
+    # add hosts in here we want to accept mail for
+    haraka.local
+  host_list_regex: |-
+    # Add regexes in here we want to accept mail for.
+    # Specifies the list of regexes that are local to this server.  Note
+    # all these regexes are anchored with ^regex$. One can not choose not to
+    # anchor with .* and that there is a good potential for bad regexes being
+    # over permissive if we don't do this.
+  http.ini: |-
+    ; listen: the HTTP address:port(s) to listen on
+    ; default: [::]:80 (port 80 on all IPv4 and IPv6 addresses)
+    ; listen=[::]:80
+
+    ; listen can also be a unix socket path, with an optional 3-digit permission mask
+    ; e.g. listen=/path/to/some.sock or listen=/path/to/some.sock:777
+    ; if no mask is specified, the default permissions are determined by the umask.
+
+    ; docroot: the directory where web content is served from
+    ;docroot=/usr/local/haraka/html
+  lmtp.ini: |-
+    ; [main]
+    ; host=127.0.0.1
+
+    ; [example.com]
+    ; host=mail.example.com
+    ; port=24
+  log.ini: |-
+    [main]
+    ; level=data, protocol, debug, info, notice, warn, error, crit, alert, emerg
+    level=info
+
+    ; prepend timestamps to log entries? This setting does NOT affect logs emitted
+    ; by logging plugins (like syslog).
+    timestamps=false
+
+    ;  format=default, logfmt, json
+    format=default
+  lookup_rdns.strict.ini: |-
+    [general]
+    nomatch=Please setup matching DNS and rDNS records.
+    timeout=60
+    timeout_msg=DNS check timed out.
+
+    [forward]
+    nxdomain=Please setup a forward DNS record.
+    dnserror=Please setup matching DNS and rDNS records.
+
+    [reverse]
+    nxdomain=Please setup a reverse DNS record.
+    dnserror=Please setup matching DNS and rDNS records.
+  lookup_rdns.strict.timeout: |-
+    0
+  lookup_rdns.strict.whitelist: |-
+    # Hostnames and IPs are matched exactly as written on each line.
+  lookup_rdns.strict.whitelist_regex: |-
+    # Does the same thing as the whitelist file, but each line is a regex.
+    # Each line is also anchored for you, meaning '^' + regex + '$' is added for
+    # you.  If you need to get around this restriction, you may use a '.*' at
+    # either the start or the end of your regex.  This should help prevent people
+    # from writing overly permissive rules on accident.
+  mail_from.is_resolvable.ini: |-
+    timeout=29
+    allow_mx_ip=0
+    reject_no_mx=1
+    re_bogus_ip=^(?:0\.0\.0\.0|255\.255\.255\.255|127\.)
+  max_unrecognized_commands: |-
+    10
+  messagesniffer.ini: |-
+    ;port=9001
+    ;tmpdir=/tmp
+    ;gbudb_report_deny=true
+    ;tag_string=[SPAM]
+
+    ;[gbudb]
+    ;white=accept
+    ;caution=allow
+    ;black=allow
+    ;truncate=reject
+
+    ;[message]
+    ;white=allow
+    ;local_white=accept
+    ;caution=allow
+    ;black=allow
+    ;truncate=reject
+    ;nonzero=reject
+  outbound.bounce_message: |-
+    Received: (Haraka {pid} invoked for bounce); {date}
+    Date: {date}
+    From: MAILER-DAEMON@{me}
+    To: {to}
+    Auto-Submitted: auto-replied
+    Subject: failure notice
+    Message-Id: {msgid}
+
+    Hi. This is the Haraka Mailer program at {me}.
+    I'm afraid I wasn't able to deliver your message
+        "{subject}"
+    to the following addresses.
+    This is a permanent error; I've given up. Sorry it didn't work out.
+
+    Intended Recipients: {recipients}
+    Failure Reason: {reason}
+
+    {extended_reason}
+  outbound.bounce_message_html: |-
+    <html>
+    <head>
+    <style>
+    * {
+    font-family:Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    </style>
+    </head>
+    <body>
+    <table cellpadding="0" cellspacing="0" class="email-wrapper" style="padding-top:32px;background-color:#ffffff;"><tbody>
+    <tr><td>
+    <table cellpadding=0 cellspacing=0><tbody>
+    <tr><td style="max-width:560px;padding:24px 24px 32px;background-color:#fafafa;border:1px solid #e0e0e0;border-radius:2px">
+    <img style="padding:0 24px 16px 0;float:left" width=72 height=72 alt="Foutpictogram" src="cid:icon.png">
+    <table style="min-width:272px;padding-top:8px"><tbody>
+    <tr><td><h2 style="font-size:20px;color:#212121;font-weight:bold;margin:0">
+    Message not delivered
+    </h2></td></tr>
+    <tr><td style="padding-top:20px;color:#757575;font-size:16px;font-weight:normal;text-align:left">
+    A problem has occurred when trying to deliver your mail to <a style='color:#212121;text-decoration:none'><b>{recipients}</b></a> . Look below for the technical details.
+    </td></tr>
+    </tbody></table>
+    </td></tr>
+    </tbody></table>
+    </td></tr>
+    <tr style="border:none;background-color:#fff;font-size:12.8px;width:90%">
+    <td align="left" style="padding:48px 10px">
+    Reaction of the server: <br/>
+    <p style="font-family:monospace">
+    {reason}
+    </p>
+    </td>
+    </tr>
+    </tbody></table>
+    </body>
+    </html>
+  outbound.bounce_message_image: |-
+    Content-Type: image/png; name="icon.png"
+    Content-Disposition: attachment; filename="icon.png"
+    Content-Transfer-Encoding: base64
+    Content-ID: <icon.png>
+
+    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
+  outbound.ini: |-
+    ; see http://haraka.github.io/manual/Outbound.html
+    ;
+    ; disabled (default: false)
+    ; disabled=true
+
+    ; concurrency_max (default: 100)
+    ; concurrency_max=100
+
+    ; uncomment to disable tls for outbound mail
+    ; enable_tls=false
+
+    ; maxTempFailures (default: 13)
+
+    ; ipv6_enabled (default: false)
+
+    ; load_pid_queue
+    ; flush_queue
+
+    ; always_split: default: false
+    ; always_split=true
+
+    ; received_header (default: "Haraka outbound")
+    ; received_header=Haraka outbound
+
+    ; pool_timeout: default : 300
+    ; pool_timeout=0
+
+    ; pool_concurrency_max: default: 10
+    ; set to zero to disable pools
+    ; pool_concurrency_max=0
+  plugins: |-
+    spf
+    dkim_verify
+
+    ## ClamAV is disabled by default. Make sure freshclam has updated all
+    ## virus definitions and clamav-daemon has successfully started before
+    ## enabling it.
+    #clamd
+
+    rspamd
+    tls
+
+    # WildDuck plugin handles recipient checking and queueing
+    wildduck
+  rabbitmq.ini: |-
+    [rabbitmq]
+    exchangeName  = emailMessages
+    server_ip = localhost
+    server_port = 5672
+    queueName = email
+    deliveryMode = 2
+    confirm = true
+    durable = true
+    autoDelete = false
+    exchangeType = direct
+  rabbitmq_amqplib: |-
+    [rabbitmq]
+    host = localhost
+    port = 5672
+    user = guest
+    password = guest
+    exchangeName  = email_messages
+    exchangeType = direct
+    queueName = emails
+    deliveryMode = 2
+    confirm = true
+    durable = true
+    autoDelete = false
+  rcpt_to.blocklist: |-
+    # This is a blocklist for the rcpt_to line. One address per line.
+  rdns.allow_regexps: |-
+
+  rdns.deny_regexps: |-
+
+  rspamd.ini: |-
+    host = rspamd
+    port = 11333
+    add_headers = always
+    [dkim]
+    enabled = true
+    [header]
+    bar = X-Rspamd-Bar
+    report = X-Rspamd-Report
+    score = X-Rspamd-Score
+    spam = X-Rspamd-Spam
+    [check]
+    authenticated=true
+    private_ip=true
+    [reject]
+    spam = false
+    [soft_reject]
+    enabled = true
+    [rmilter_headers]
+    enabled = true
+    [spambar]
+    positive = +
+    negative = -
+    neutral = /'
+  smtp.ini: |-
+    ; address to listen on (default: all IPv6 and IPv4 addresses, port 25)
+    ; use "[::0]:25" to listen on IPv6 and IPv4 (not all OSes)
+    ;listen=[::0]:25
+
+    ; Note you can listen on multiple IPs/ports using commas:
+    ;listen=127.0.0.1:2529,127.0.0.2:2529,127.0.0.3:2530
+
+    ; public IP address (default: none)
+    ; If your machine is behind a NAT, some plugins (SPF, GeoIP) gain features
+    ; if they know the servers public IP. If 'stun' is installed, Haraka will
+    ; try to figure it out. If that doesn't work, set it here.
+    ;public_ip=N.N.N.N
+
+    ; Time in seconds to let sockets be idle with no activity
+    ;inactivity_timeout=300
+
+    ; Drop privileges to this user/group
+    ;user=smtp
+    ;group=smtp
+
+    ; Don't stop Haraka if plugins fail to compile
+    ;ignore_bad_plugins=0
+
+    ; Run using cluster to fork multiple backend processes
+    ;nodes=cpus
+
+    ; Daemonize
+    ;daemonize=true
+    ;daemon_log_file=/var/log/haraka.log
+    ;daemon_pid_file=/var/run/haraka.pid
+
+    ; Spooling
+    ; Save memory by spooling large messages to disk
+    ;spool_dir=/var/spool/haraka
+    ; Specify -1 to never spool to disk
+    ; Specify 0 to always spool to disk
+    ; Otherwise specify a size in bytes, once reached the
+    ; message will be spooled to disk to save memory.
+    ;spool_after=
+
+    ; Force Shutdown Timeout
+    ; - Haraka tries to close down gracefully, but if everything is shut down
+    ;   after this time it will hard close. 30s is usually long enough to
+    ;   wait for outbound connections to finish.
+    ;force_shutdown_timeout=30
+
+    ; SMTP service extensions: https://tools.ietf.org/html/rfc1869
+    ; strict_rfc1869 = false
+
+    ; Advertise support for SMTPTUF8 (RFC-6531)
+    ;smtputf8=true
+
+    [headers]
+    ;add_received=true
+    ;clean_auth_results=true
+
+    ; replace header_hide_version
+    ;show_version=true
+
+    ; replace max_header_lines
+    max_lines=1000
+
+    ; replace max_received_count
+    max_received=100
+  smtp_bridge.ini: |-
+    host=localhost
+    #port=
+    #auth_type=
+    #priority=10
+  smtp_forward.ini: |-
+    ; host to connect to
+    host=localhost
+    ;
+    ; port to connect to
+    port=2555
+    ;
+    ; timeout backend connection from pool
+    ;timeout=300
+    ;
+    ; max connections in pool
+    ;max_connections=1000
+    ;
+    ; uncomment to enable TLS to the backend SMTP server
+    ;enable_tls=true
+    ;
+    ; for messages that have multiple RCPT, send a separate message for each RCPT
+    ; when forwarding.
+    ;one_message_per_rcpt=true
+    ;
+    ; uncomment to use smtp client authorization
+    ;auth_type=plain
+    ;auth_user=
+    ;auth_pass=
+
+    ; should outbound messages be delivered by smtp_forward?
+    ; see https://github.com/haraka/Haraka/issues/1472
+    ; enable_outbound=true
+  smtp_proxy.ini: |-
+    ; host to connect to
+    host=localhost
+    ;
+    ; port to connect to
+    port=2555
+    ;
+    ; timeout backend connection from pool
+    ;timeout=300
+    ;
+    ; max connections in pool
+    ;max_connections=1000
+    ;
+    ; uncomment to enable TLS to the backend SMTP server
+    ; enable_tls=1
+    ;
+    ; uncomment to use smtp client authorization
+    ;auth_type=plain
+    ;auth_user=
+    ;auth_pass=
+
+    ; should outbound messages be delivered by smtp_proxy?
+    ; see https://github.com/haraka/Haraka/issues/1472
+    ; enable_outbound=true
+  smtpgreeting: |-
+    WildDuck MX
+  spamassassin.ini: |-
+    ; How does Haraka connect to the SpamAssassin spamd daemon?
+    ; TCP/IP: 127.0.0.1:783
+    ; socket: /var/run/spamd/spamd.sock
+    spamd_socket=127.0.0.1:783
+
+    ; the username we tell spamd the message is to (default: default)
+    ;spamd_user=first-recipient (see docs)
+    ;spamd_user=
+
+    ; messages larger than this are not scored by SA
+    max_size=500000
+
+    ; Munge the subject of messages with a score higher than..
+    ; munge_subject_threshold=5
+    subject_prefix=*** SPAM ***
+
+    ; what to do with incoming messages with X-Spam-* headers
+    ; options are: rename, drop, keep
+    old_headers_action=rename
+
+    ; use the SpamAssassin 3.0+ syntax in X-Spam-Status header
+    ; modern: No, score=0.8 required=8.0 tests=...
+    ; legacy: No, hits=0.8 required=8.0 tests=...
+    modern_status_syntax=1
+
+    ; Reject all messages with more than this many hits
+    ; reject_threshold=10
+
+    ; when a connection has relay privileges, the rejection limit
+    ; relay_reject_threshold=7
+
+    ; How long should we wait for SpamAssassin to answer the socket
+    ; in seconds (default: 30)
+    ;connect_timeout=
+
+    ; How long should we wait for a result from SpamAssassin
+    ; in seconds (default: 300)
+    ;results_timeout=
+
+    ; Merge SpamAssassin's headers into the message
+    ;add_headers=true
+
+    ; the header that is sent to spamc
+    ;spamc_auth_header = X-Haraka-Relay
+
+    [check]
+    ;authenticated=false
+    ;private_ip=false
+    ;local_ip=false
+    ;relay=false
+  spf.ini: |-
+    ; See 'haraka -h spf' for options
+  tarpit.timeout: |-
+    0
+  tls.ini: |-
+    ; See 'haraka -h tls'
+
+    ; key=tls_key.pem
+    ; cert=tls_cert.pem
+    ; dhparam=dhparams.pem
+
+    ; ciphers: a list of permitted ciphers
+    ; The default cipher list is provided by node.js and is considered secure at
+    ; the time of that versions release. If you have problems with the default cipher
+    ; list, try enabling this "kinda high but more compatible" setting.
+    ; ciphers=ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4
+
+    ; minimum TLS version (node.js 11.4+ required)
+    ; Allowed values are 'TLSv1.3', 'TLSv1.2', 'TLSv1.1', or 'TLSv1'
+    ; The default value is node.js's tls.DEFAULT_MIN_VERSION
+    ; minVersion=TLSv1
+
+    ; honorCipherOrder=true
+    ; rejectUnauthorized=false
+    ; requestCert=true
+    ; requestOCSP=false
+
+    ; rejectUnauthorized above requires verified TLS certs on EVERY TLS connection. When
+    ; rejectUnauthorized=false (default), you can require verified TLS certs on only the
+    ; ports you specify.
+    ; requireAuthorized[]=465
+    ; requireAuthorized[]=587
+
+    ; send client certificate(s). If you use this setting and value it, report
+    ; your use case at https://github.com/haraka/Haraka/issues/2693
+    ; mutual_tls=false
+
+
+    [redis]
+    ; options in this block require redis to be enabled in config/plugins.
+
+    ; Remember when a remote fails STARTTLS, the next time they/we connect,
+    ;     don't offer/use STARTTLS option (so message gets delivered).
+    ;     pro: increases mail reliability
+    ;     con: reduces security
+    ; outbound only warning: **you must restart haraka** after changing this option
+    ; default: false
+    ; disable_for_failed_hosts=true
+
+    ; The following section applies to outbound only:
+    ; host = 127.0.0.1
+    ; "TLS NO-GO" db
+    ; db = 3
+    ; TLS NO-GO Expiry time in seconds
+    ; disable_expiry = 604800
+
+    ; TLS NO-GO Inbound expiry time in seconds
+    ; disable_inbound_expiry = 3600
+
+
+    ; no_tls_hosts - disable TLS for servers with broken TLS. (applies to inbound only)
+    [no_tls_hosts]
+    ; 127.0.0.1
+    ; 192.168.1.1
+    ; 172.16.0.0/16
+
+
+    ; hosts that require us to present a cert signed by a CA we both trust
+    [mutual_auth_hosts]
+    ;travel.state.gov                     ; use default TLS cert
+    ;xo.huggable.gov=special.my-tld.com   ; specify cert by CN
+
+
+    ; these hosts request mutual TLS and reject our TLS certificate
+    [mutual_auth_hosts_exclude]
+    ;bofh.no-such-agency.gov
+
+
+    [outbound]
+    ; key=tls_key.pem
+    ; cert=tls_cert.pem
+    ; dhparam=dhparams.pem
+
+    ; and other options from [main] section above
+  watch.ini: |-
+    ; watch - a web interface for viewing Haraka activity
+
+    ; Sampling:Limit display to 1 connection per second (Default: false)
+    ; sampling=false
+
+    [wss]
+    ; url (Default: same URL as HTTP client used)
+    ; The WebSocket client will attempt to connect via the same URI (changing only
+    ; the scheme) as the initial HTTP connection. WSS is stricter than typical
+    ; HTTP so the scheme and hostname *must* match else it silently fails.
+    ;
+    ; url=wss://mail.example.com/
+  wildduck.yaml: |-
+    ## Connect to a master instance or Redis
+    redis:
+        port: 6379
+        host: 'redis'
+        db: 3
+    #  password: ""
+
+    ## Or alternatively, connect to Redis Sentinel
+    # redis:
+    #   name: "mymaster"
+    #   password: ""
+    #   db: 3
+    #   sentinels:
+    #     - host: "1.2.3.4"
+    #       port: 26379
+    #     - host: "1.2.3.5"
+    #       port: 26379
+    #     - host: "1.2.3.6"
+    #       port: 26379
+
+    mongo:
+        # connection string for main messages database
+        url: 'mongodb://mongo:27017/wildduck'
+
+        ## database name or connection string for the users db
+        #users: "users"
+
+        ## database name or connection string for the attachments db
+        #gridfs: "attachments"
+
+        ## database name or connection string for the outbound queue
+        sender: 'zone-mta'
+
+    sender:
+        # Push messages to ZoneMTA queue for delivery
+        # if `false` then no messages are sent
+        enabled: true
+
+        # which ZoneMTA queue to use by default. This mostly affects forwarded messages
+        zone: 'default'
+
+        # Collection name for GridFS storage
+        gfs: 'mail'
+
+        # Collection name for the queue
+        # see [dbs].sender option for choosing correct database to use for ZoneMTA queues
+        # by default the main wildduck database is used
+        collection: 'zone-queue'
+
+        # Hashing secret for loop detection
+        # Must be shared with wildduck
+        # If not set then looping is not tracked
+        #loopSecret: 'secret value'
+
+    srs:
+        # must be shared with ZoneMTA SRS config, otherwise messages sent from ZoneMTA are not recognized by Haraka
+        secret: 'secret value'
+
+    attachments:
+        type: 'gridstore'
+        bucket: 'attachments'
+        decodeBase64: true
+
+    log:
+        authlogExpireDays: 30
+
+    limits:
+        windowSize: 3600 # 1 hour
+        rcptIp: 100 # allowed messages for the same recipient from same IP during window size
+        rcptWindowSize: 60 # 1 minute
+        rcpt: 60 # allowed messages for the same recipient during window size
+
+    gelf:
+        enabled: false
+        component: 'mx'
+        options:
+            graylogPort: 12201
+            graylogHostname: '127.0.0.1'
+            connection: 'lan'
+
+    rspamd:
+        # do not process forwarding addresses for messages with the following spam score
+        forwardSkip: 10
+
+        # if a message has one of the tags listed here with positive score, the message will be rejected
+        blacklist:
+            - DMARC_POLICY_REJECT
+
+        # if a message has one of the tags listed here with positive score, the message will be soft rejected
+        softlist:
+            - RBL_ZONE
+
+        # define special responses
+        responses:
+            DMARC_POLICY_REJECT: "Unauthenticated email from {host} is not accepted due to domain's DMARC policy"
+            RBL_ZONE: '[{host}] was found from Zone RBL'
+  xclient.hosts: |-
+    # List of IP addresses that are allowed to use XCLIENT
+    127.0.0.1

@@ -15,3 +15,9 @@ webmail:
     host: mongodb-1662497916.default.svc.cluster.local
     username: wildduck-webmail
     password: wildduck-webmail
+
+haraka:
+  mongo:
+    host: mongodb-1662497916.default.svc.cluster.local
+    username: wildduck
+    password: wildduck

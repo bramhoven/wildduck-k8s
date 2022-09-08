@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "wildduck.haraka.fullname" . }}-test-connection"
+  labels:
+    {{- include "wildduck.haraka.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "wildduck.haraka.fullname" . }}:{{ .Values.haraka.service.port }}']
+  restartPolicy: Never

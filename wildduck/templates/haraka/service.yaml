@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{include "wildduck.haraka.fullname" .}}
+  labels: {{- include "wildduck.haraka.labels" . | nindent 4}}
+spec:
+  type: {{.Values.haraka.service.type}}
+  ports:
+    - port: 25
+      targetPort: smtp
+      protocol: TCP
+      name: smtp
+  selector: {{- include "wildduck.haraka.selectorLabels" . | nindent 4}}
