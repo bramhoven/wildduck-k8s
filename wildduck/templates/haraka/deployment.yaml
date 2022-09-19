@@ -51,10 +51,15 @@ spec:
           volumeMounts:
           - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
             mountPath: /app/config
+          - name: {{ include "wildduck.haraka.fullname" . }}-dkim-config-volume
+            mountPath: /app/config/dkim
       volumes:
         - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
           configMap:
             name: {{ include "wildduck.haraka.fullname" . }}-configmap
+        - name: {{ include "wildduck.haraka.fullname" . }}-dkim-config-volume
+          configMap:
+            name: {{ include "wildduck.haraka.fullname" . }}-dkim-configmap
       {{- with .Values.haraka.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

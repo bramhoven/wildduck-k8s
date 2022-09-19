@@ -1133,10 +1133,11 @@ data:
   wildduck.yaml: |-
     ## Connect to a master instance or Redis
     redis:
-        port: 6379
-        host: 'redis'
+        port: {{ .Values.redis.port }}
+        host: {{ .Values.redis.host }}
         db: 3
-    #  password: ""
+        username: {{ .Values.redis.username }}
+        password: {{ .Values.redis.password }}
 
     ## Or alternatively, connect to Redis Sentinel
     # redis:
@@ -1153,7 +1154,7 @@ data:
 
     mongo:
         # connection string for main messages database
-        url: 'mongodb://mongo:27017/wildduck'
+        url: 'mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck'
 
         ## database name or connection string for the users db
         #users: "users"
