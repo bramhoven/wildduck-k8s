@@ -36,7 +36,7 @@ spec:
           - "--config=./config/webmail.toml"
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: {{.Values.webmail.service.port}}
               protocol: TCP
           livenessProbe:
             httpGet:
