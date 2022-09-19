@@ -39,12 +39,12 @@ spec:
           livenessProbe:
             tcpSocket:
               port: smtp
-            initialDelaySeconds: 60
+            initialDelaySeconds: 20
             periodSeconds: 30
           readinessProbe:
             tcpSocket:
               port: smtp 
-            initialDelaySeconds: 60
+            initialDelaySeconds: 20
             periodSeconds: 30
           resources:
             {{- toYaml .Values.haraka.resources | nindent 12 }}
