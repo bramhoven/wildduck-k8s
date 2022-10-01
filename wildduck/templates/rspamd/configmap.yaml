@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "wildduck.rspamd.fullname" . }}-configmap"
+data:
+  worker-normal.conf: |-
+    # Included from top-level .conf file
+
+    worker "normal" {
+        bind_socket = "*:{{ .Values.rspamd.service.port }}";
+        .include "$CONFDIR/worker-normal.inc"
+        .include(try=true; priority=1,duplicate=merge) "$LOCAL_CONFDIR/local.d/worker-normal.inc"
+        .include(try=true; priority=10) "$LOCAL_CONFDIR/override.d/worker-normal.inc"
+    }

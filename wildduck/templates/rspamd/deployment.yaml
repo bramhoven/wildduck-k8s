@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wildduck.rspamd.fullname" . }}
+  labels:
+    {{- include "wildduck.rspamd.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.rspamd.autoscaling.enabled }}
+  replicas: {{ .Values.rspamd.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "wildduck.rspamd.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.rspamd.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "wildduck.rspamd.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.rspamd.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.rspamd.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.rspamd.securityContext | nindent 12 }}
+          image: "{{ .Values.rspamd.image.repository }}:{{ .Values.rspamd.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.rspamd.image.pullPolicy }}
+          ports:
+            - name: rspamd
+              containerPort: {{.Values.rspamd.service.port}}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.rspamd.resources | nindent 12 }}
+          volumeMounts:
+          - name: {{ include "wildduck.rspamd.fullname" . }}-config-volume
+            mountPath: /app/rspamd/worker-normal.conf
+            subPath: worker-normal.conf
+          - name: {{ include "wildduck.rspamd.fullname" . }}-override-config-volume
+            mountPath: /etc/rspamd/override.d
+      volumes:
+        - name: {{ include "wildduck.rspamd.fullname" . }}-config-volume
+          configMap:
+            name: {{ include "wildduck.rspamd.fullname" . }}-configmap
+        - name: {{ include "wildduck.rspamd.fullname" . }}-override-config-volume
+          configMap:
+            name: {{ include "wildduck.rspamd.fullname" . }}-override-configmap
+      {{- with .Values.rspamd.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.rspamd.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.rspamd.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
