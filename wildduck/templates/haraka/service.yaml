@@ -6,7 +6,7 @@ metadata:
 spec:
   type: {{.Values.haraka.service.type}}
   ports:
-    - port: 25
+    - port: {{.Values.haraka.service.port}}
       targetPort: smtp
       protocol: TCP
       name: smtp

@@ -1,0 +1,28 @@
+{{- if .Values.zonemta.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "wildduck.fullname" . }}
+  labels:
+    {{- include "wildduck.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "wildduck.fullname" . }}
+  minReplicas: {{ .Values.zonemta.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.zonemta.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.zonemta.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.zonemta.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.zonemta.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.zonemta.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

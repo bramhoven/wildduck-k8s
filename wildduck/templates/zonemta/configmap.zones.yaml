@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "wildduck.zonemta.fullname" . }}-zones-configmap"
+data:
+  bounces.toml: |-
+    [bounces]
+    preferIPv6=false
+    ignoreIPv6=true
+    processes=1
+    connections=2
+    pool="default"
+  default.toml: |-
+    [default]
+    preferIPv6=false
+    ignoreIPv6=true
+    processes=1
+    connections=5
+    pool="default"
+
+    # If you want to send messages for this zone to next MTA instead of actual MX, then
+    # uncomment following lines and change values
+    #host = "smtp.ethereal.email"
+    #port = 587
+    #[default.auth]
+    #user = "gsblpjxjdvhnqkgr@ethereal.email"
+    #pass = "zDZpDnSsFf11Zfvtv5"
+  routed.toml: |-
+    [routed]
+    preferIPv6 = false
+    ignoreIPv6 = true
+    processes = 1
+    connections = 5
+    pool = "default"
+    [routed.routingHeaders]
+      "x-user-id" = "123"

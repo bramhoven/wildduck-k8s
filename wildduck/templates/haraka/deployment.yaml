@@ -34,7 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.haraka.image.pullPolicy }}
           ports:
             - name: smtp 
-              containerPort: 25
+              containerPort: {{.Values.haraka.service.port}}
               protocol: TCP
           livenessProbe:
             tcpSocket:

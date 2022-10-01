@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{include "wildduck.zonemta.fullname" .}}
+  labels: {{- include "wildduck.zonemta.labels" . | nindent 4}}
+spec:
+  type: {{.Values.zonemta.service.type}}
+  ports:
+    - port: {{.Values.zonemta.service.port}}
+      targetPort: smtp
+      protocol: TCP
+      name: smtp
+  selector: {{- include "wildduck.zonemta.selectorLabels" . | nindent 4}}
