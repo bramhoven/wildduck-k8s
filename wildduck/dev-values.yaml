@@ -6,18 +6,24 @@ redis:
 
 wildduck:
   mongo:
-    host: mongodb-1662497916.default.svc.cluster.local
+    host: mongodb-1664653110.default.svc.cluster.local
     username: wildduck
     password: wildduck
 
 webmail:
   mongo:
-    host: mongodb-1662497916.default.svc.cluster.local
+    host: mongodb-1664653110.default.svc.cluster.local
     username: wildduck-webmail
     password: wildduck-webmail
 
 haraka:
   mongo:
-    host: mongodb-1662497916.default.svc.cluster.local
+    host: mongodb-1664653110.default.svc.cluster.local
     username: wildduck
     password: wildduck
+
+zonemta:
+  mongo:
+    host: mongodb-1664653110.default.svc.cluster.local
+    username: zone-mta
+    password: zone-mta

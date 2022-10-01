@@ -1,0 +1,126 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "wildduck.zonemta.fullname" . }}-plugins-configmap"
+data:
+  avast.toml: |-
+    ["modules/zonemta-avast"]
+    enabled=false # not enabled by default
+    #enabled=["receiver", "main", "sender"]
+    interfaces=['*']
+    socket="/var/run/avast/scan.sock"
+  default-headers.toml: |-
+    ["core/default-headers"]
+    enabled=["receiver", "main", "sender"]
+    # Which missing headers to add
+    addMissing=["message-id", "date"]
+    # If true then delays messages with future Date: headers until that time has arrived
+    futureDate=false
+    # Add X-Originating-IP header
+    xOriginatingIP=true
+  delivery-counters.toml: |-
+    ["modules/zonemta-delivery-counters"]
+    enabled="main"
+    prefix="zmta"
+  email-bounce.toml: |-
+    ["core/email-bounce"]
+    enabled="main"
+    sendingZone="bounces"
+
+    # email bounces are not generated for messages from the following interfaces
+    disableInterfaces=["forwarder"]
+
+    ["core/email-bounce".mailerDaemon]
+    # From: header for bounce emails
+    name="Mail Delivery Subsystem"
+    address="mailer-daemon@[HOSTNAME]"
+
+    # configure zone specific bounce options for zone "myzone"
+    ["core/email-bounce".zoneConfig.myzone]
+    disabled=true # if true then skip this block, revert to default
+    sendingZone="default" # use a specific zone
+  example-auth.toml: |-
+    ["example-auth"]
+    enabled=false
+    #enabled="receiver"
+    # only check authentication for interfaces with following names
+    interfaces=["feeder"]
+  example.toml: |-
+    [example]
+    enabled=false
+    #enabled="receiver"
+  image-hashes.toml: |-
+    ["core/image-hashes"]
+    enabled="receiver"
+  loop-breaker.toml: |-
+    ["modules/zonemta-loop-breaker"]
+    enabled="sender"
+    secret="super secret value"
+    algo="md5"
+  wildduck.toml: |-
+    ["modules/zonemta-wildduck"]
+    enabled=["receiver", "sender"]
+
+    # to which SMTP interfaces this plugin applies to. Use "*" for all interfaces
+    interfaces=["feeder"]
+
+    # optional hostname to be used in headers
+    # defaults to os.hostname()
+    hostname="example.com"
+
+    # How long to keep auth records in log
+    authlogExpireDays=30
+
+    # default smtp recipients for 24h (can be overriden per user)
+    maxRecipients=2000
+
+    disableUploads=false # if true then messages are not uploaded to Sent Mail folder
+    uploadAll=false # if false then messages from Outlook are not uploaded to Sent Mail folder
+
+    # SRS settings for forwarded emails
+    # ---------------------------------
+
+    ["modules/zonemta-wildduck".srs]
+        # Handle rewriting of forwarded emails. If false then SRS is not used
+        # Only affect messages that have interface set to "forwarder"
+        enabled=true
+
+        # SRS secret value. Must be the same as in the MX side
+        secret="secret value"
+
+        # SRS domain, must resolve back to MX
+        rewriteDomain="example.com"
+
+    # DKIM Settings
+    # -------------
+
+    ["modules/zonemta-wildduck".dkim]
+        # If true then also adds a signature for the outbound domain
+        signTransportDomain=false
+
+        # If set then decrypt encrypted DKIM keys using this password
+        #secret="a secret cat"
+
+        # Cipher to use to decrypt encrypted DKIM keys
+        #cipher="aes192"
+
+
+    ["modules/zonemta-wildduck".gelf]
+        enabled=false
+        component="mta"
+
+        ["modules/zonemta-wildduck".gelf.options]
+            graylogPort=12201
+            graylogHostname='127.0.0.1'
+            connection='lan'
+  zonemta-limiter.toml: |-
+    # plugins/zonemta-limiter.toml
+    ["modules/zonemta-limiter"]
+    enabled = ["sender"]
+    prefix = "zl:"
+
+    debug = false # if true, then errors are only logged but messages are not dropped
+
+    # max 250 messages in half an hour
+    limit = 250
+    windowSize = 1800

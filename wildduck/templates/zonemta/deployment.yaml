@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wildduck.zonemta.fullname" . }}
+  labels:
+    {{- include "wildduck.zonemta.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.zonemta.autoscaling.enabled }}
+  replicas: {{ .Values.zonemta.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "wildduck.zonemta.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.zonemta.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "wildduck.zonemta.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.zonemta.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.zonemta.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.zonemta.securityContext | nindent 12 }}
+          image: "{{ .Values.zonemta.image.repository }}:{{ .Values.zonemta.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.zonemta.image.pullPolicy }}
+          ports:
+            - name: smtp
+              containerPort: {{.Values.zonemta.service.port}}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: smtp
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: smtp 
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.zonemta.resources | nindent 12 }}
+          volumeMounts:
+          - name: {{ include "wildduck.zonemta.fullname" . }}-config-volume
+            mountPath: /app/config
+          - name: {{ include "wildduck.zonemta.fullname" . }}-interfaces-config-volume
+            mountPath: /app/config/interfaces
+          - name: {{ include "wildduck.zonemta.fullname" . }}-plugins-config-volume
+            mountPath: /app/config/plugins
+          - name: {{ include "wildduck.zonemta.fullname" . }}-zones-config-volume
+            mountPath: /app/config/zones
+      volumes:
+        - name: {{ include "wildduck.zonemta.fullname" . }}-config-volume
+          configMap:
+            name: {{ include "wildduck.zonemta.fullname" . }}-configmap
+        - name: {{ include "wildduck.zonemta.fullname" . }}-interfaces-config-volume
+          configMap:
+            name: {{ include "wildduck.zonemta.fullname" . }}-interfaces-configmap
+        - name: {{ include "wildduck.zonemta.fullname" . }}-plugins-config-volume
+          configMap:
+            name: {{ include "wildduck.zonemta.fullname" . }}-plugins-configmap
+        - name: {{ include "wildduck.zonemta.fullname" . }}-zones-config-volume
+          configMap:
+            name: {{ include "wildduck.zonemta.fullname" . }}-zones-configmap
+      {{- with .Values.zonemta.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.zonemta.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.zonemta.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

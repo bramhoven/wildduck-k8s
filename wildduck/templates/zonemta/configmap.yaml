@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "wildduck.zonemta.fullname" . }}-configmap"
+data:
+  dbs-development.toml: |-
+    # Database configuration
+
+    # MongoDB connection string
+    mongo="mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta"
+
+    # Redis connection string
+    redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
+
+    # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
+    sender="zone-mta"
+
+    # Redis connection information
+    #[redis]
+    #host = "localhost"
+    #port = 6379
+    #db = 2
+  dbs-production.toml: |-
+    # Database configuration
+    # this file is loaded when NODE_ENV=production
+
+    # MongoDB connection string
+    mongo="mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta"
+
+    # Redis connection string
+    redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
+
+    # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
+    sender="zone-mta"
+
+    # Database name for Wild Duck users
+    # users="wildduck"
+
+    # Database name for Wild Duck attachments
+    # gridfs="wildduck"
+  dns.toml: |-
+    # If true then caches DNS results to Redis
+    caching=true
+    cacheTTL=600 # TTL of cached dns keys in seconds
+
+    # Define nameservers to use (IP addresses only). If using a local DNS cache server, then set caching=false
+    nameservers=[]
+
+    #caching=false
+    #nameservers=["127.0.0.1"]
+
+    blockDomains=[]
+
+    # If true then messages to local interfaces are blocked (eg. you can not send to username@localhost)
+    blockLocalAddresses=false
+  domains.toml: |-
+    # Add domain specific settings here
+
+    [default]
+    maxConnections=5
+
+    #["gmail.com"]
+    #maxConnections=10
+  log.toml: |-
+    level="info" # "silly" "info" "error"
+
+    [remote]
+        # Make sure you have ZMTA Webadmin listening on this port
+        # See: https://github.com/zone-eu/zmta-webadmin/blob/4aa7a06ac5b64d12a409b67a2f9475d1670445d2/config/default.toml#L27-L32
+        protocol="udp4"
+        host="127.0.0.1"
+        port=31239
+  pools.toml: |-
+    # List local IP addresses that can be used for outbound tcp connections
+    # Server process must be able to locally bind to these addresses
+
+    [[default]]
+    address="0.0.0.0"
+    # name="example.com"
+    #
+    #[[default]]
+    #address="1.2.3.5"
+    #name="ip-2.hostname"
+  queue.toml: |-
+    # Every instance of ZoneMTA that uses the same database backend
+    # must have its own unique instance id set. If you never plan to
+    # run more than a single ZoneMTA instance then you do not need to
+    # change this value
+    instanceId="default"
+
+    # Collection name for message queue
+    collection="zone-queue"
+
+    # Bucket name for the GridStore storage
+    gfs="mail"
+
+    # Set to true if you do not care about cleaning up the remains of broken transactions
+    disableGC=false
+  zonemta.toml : |-
+    # This is the main config file
+
+    name="ZoneMTA"
+
+    # Process identifier
+    ident="zone-mta"
+
+    # Run as the following user. Only use this if the application starts up as root
+    #user="zonemta"
+    #group="zonemta"
+
+    [log]
+    # Logging options
+    # @include "log.toml"
+
+    [dbs]
+    # MongoDB and Redis connection options
+    # @include "dbs-{env}.toml"
+
+    [queue]
+    # @include "queue.toml"
+
+    [dns]
+    # @include "dns.toml"
+
+    [api]
+    port=12080
+
+    [smtpInterfaces]
+    # @include "interfaces/*.toml"
+
+    [plugins]
+    # @include "plugins/*.toml"
+
+    [pools]
+    # @include "pools.toml"
+
+    [zones]
+    # @include "zones/*.toml"
+
+    [domainConfig]
+    # @include "domains.toml"
