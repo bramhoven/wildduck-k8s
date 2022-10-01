@@ -133,7 +133,7 @@ data:
         redirect = "https://wildduck.email" # redirect requests unrelated to ACME updates to this URL
   api.toml: |-
     enabled=true
-    port=8080
+    port={{ .Values.wildduck.service.httpPort }}
     # by default bind to localhost only
     host="0.0.0.0"
 

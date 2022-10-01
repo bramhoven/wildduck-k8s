@@ -43,7 +43,7 @@ data:
 
     [www]
         host=false
-        port=3000
+        port={{ .Values.webmail.service.port }}
         proxy=false
         postsize="5MB"
         log="dev"
@@ -77,12 +77,12 @@ data:
         [setup.imap]
             hostname="{{ .Values.mailDomain }}"
             secure=true
-            port=993
+            port={{ .Values.wildduck.service.imapsPort }}
         [setup.pop3]
             hostname="{{ .Values.mailDomain }}"
             secure=true
-            port=995
+            port={{ .Values.wildduck.service.pop3sPort }}
         [setup.smtp]
             hostname="{{ .Values.mailDomain }}"
             secure=true
-            port=465
+            port={{ .Values.haraka.service.port }}

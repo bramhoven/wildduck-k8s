@@ -34,13 +34,13 @@ spec:
           imagePullPolicy: {{ .Values.wildduck.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{.Values.webmail.service.httpPort}}
+              containerPort: {{.Values.wildduck.service.httpPort}}
               protocol: TCP
             - name: imaps
-              containerPort: {{.Values.webmail.service.imapsPort}}
+              containerPort: {{.Values.wildduck.service.imapsPort}}
               protocol: TCP
             - name: pop3s
-              containerPort: {{.Values.webmail.service.pop3sPort}}
+              containerPort: {{.Values.wildduck.service.pop3sPort}}
               protocol: TCP
           livenessProbe:
             httpGet:
