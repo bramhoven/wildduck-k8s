@@ -835,8 +835,8 @@ data:
   rdns.deny_regexps: |-
 
   rspamd.ini: |-
-    host = rspamd
-    port = 11333
+    host = {{ include "wildduck.rspamd.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+    port = {{ .Values.rspamd.service.port }}
     add_headers = always
     [dkim]
     enabled = true

@@ -1,0 +1,28 @@
+{{- if .Values.rspamd.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "wildduck.fullname" . }}
+  labels:
+    {{- include "wildduck.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "wildduck.fullname" . }}
+  minReplicas: {{ .Values.rspamd.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.rspamd.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.rspamd.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.rspamd.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.rspamd.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.rspamd.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

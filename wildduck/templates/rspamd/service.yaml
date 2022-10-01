@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{include "wildduck.rspamd.fullname" .}}
+  labels: {{- include "wildduck.rspamd.labels" . | nindent 4}}
+spec:
+  type: {{.Values.rspamd.service.type}}
+  ports:
+    - port: {{.Values.rspamd.service.port}}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector: {{- include "wildduck.rspamd.selectorLabels" . | nindent 4}}
