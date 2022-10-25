@@ -232,7 +232,7 @@ haraka:
     # runAsUser: 1000
 
   service:
-    type: ClusterIP
+    type: LoadBalancer
     port: 25
 
   ingress:
@@ -314,7 +314,7 @@ zonemta:
     # runAsUser: 1000
 
   service:
-    type: ClusterIP
+    type: LoadBalancer
     port: 587
 
   ingress:
