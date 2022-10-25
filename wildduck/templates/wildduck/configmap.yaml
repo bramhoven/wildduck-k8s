@@ -98,7 +98,7 @@ data:
 
     [smtp.setup]
     # Public configuration for SMTP MDA, needed for mobileconfig files
-    hostname="localhost"
+    hostname="{{ .Values.mailDomain }}"
     secure=true
     port=465
 
@@ -333,7 +333,7 @@ data:
 
     [setup]
     # Public configuration for IMAP
-    hostname="example.com"
+    hostname="{{ .Values.mailDomain }}"
     secure=true
     # port defaults to imap.port
     port=993
@@ -423,7 +423,7 @@ data:
 
     [setup]
     # Public configuration for POP3
-    hostname="example.com"
+    hostname="{{ .Values.mailDomain }}"
     secure=true
     # port defaults to pop3.port
     port=995
