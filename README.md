@@ -12,3 +12,12 @@
     WildDuck is a modern mail server software for IMAP and POP3. Modern being scalable, Unicode-first, and API-controlled. To create a complete mail server, you can bundle WildDuck with Haraka and ZoneMTA.
   </p>
 </div>
+
+
+## Adding Helm Chart
+
+```bash
+$ helm repo add bramhoven https://bramhoven.github.io/charts
+$ helm search repo bramhoven
+$ helm install my-release bramhoven/wildduck
+```
