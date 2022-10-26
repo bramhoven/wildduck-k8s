@@ -1167,7 +1167,11 @@ data:
         #gridfs: "attachments"
 
         ## database name or connection string for the outbound queue
-        sender: 'zone-mta'
+        {{ if .Values.wildduck.mongo.authEnabled }}
+        sender: 'mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta'
+        {{ else }}
+        sender: 'mongodb://{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta'
+        {{ end }}
 
     sender:
         # Push messages to ZoneMTA queue for delivery
