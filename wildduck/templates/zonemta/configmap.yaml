@@ -44,7 +44,7 @@ data:
     cacheTTL=600 # TTL of cached dns keys in seconds
 
     # Define nameservers to use (IP addresses only). If using a local DNS cache server, then set caching=false
-    nameservers=[]
+    nameservers=[1.1.1.1, 8.8.8.8]
 
     #caching=false
     #nameservers=["127.0.0.1"]
@@ -76,7 +76,7 @@ data:
 
     [[default]]
     address="0.0.0.0"
-    # name="example.com"
+    name="{{ .Values.mailDomain }}"
     #
     #[[default]]
     #address="1.2.3.5"
