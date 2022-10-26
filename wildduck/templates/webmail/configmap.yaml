@@ -36,11 +36,11 @@ data:
 
     [dbs]
         # mongodb connection string for the main database
-        {{- if .Values.wildduck.mongo.authEnabled }}
-            mongo="mongodb://{{ .Values.webmail.mongo.username }}:{{ .Values.webmail.mongo.password }}@{{ .Values.webmail.mongo.host }}:{{ .Values.webmail.mongo.port }}/wildduck-webmail"
-        {{- else }}
-            mongo="mongodb://@{{ .Values.webmail.mongo.host }}:{{ .Values.webmail.mongo.port }}/wildduck-webmail"
-        {{- end }}
+        {{ if .Values.wildduck.mongo.authEnabled }}
+        mongo="mongodb://{{ .Values.webmail.mongo.username }}:{{ .Values.webmail.mongo.password }}@{{ .Values.webmail.mongo.host }}:{{ .Values.webmail.mongo.port }}/wildduck-webmail"
+        {{ else }}
+        mongo="mongodb://@{{ .Values.webmail.mongo.host }}:{{ .Values.webmail.mongo.port }}/wildduck-webmail"
+        {{ end }}
 
 
         # redis connection string for Express sessions
