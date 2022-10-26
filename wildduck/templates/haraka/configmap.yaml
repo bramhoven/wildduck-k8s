@@ -1154,7 +1154,12 @@ data:
 
     mongo:
         # connection string for main messages database
-        url: 'mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck'
+        {{- if .Values.wildduck.mongo.authEnabled }}
+            url: 'mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck'
+        {{- else }}
+            url: 'mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck'
+        {{- end }}
+
 
         ## database name or connection string for the users db
         #users: "users"

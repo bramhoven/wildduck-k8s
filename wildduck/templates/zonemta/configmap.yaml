@@ -25,7 +25,11 @@ data:
     # this file is loaded when NODE_ENV=production
 
     # MongoDB connection string
-    mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/wildduck"
+    {{- if .Values.zonemta.mongo.authEnabled }}
+      mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/wildduck"
+    {{- else }}
+      mongo="mongodb://{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/wildduck"
+    {{- end }}
 
     # Redis connection string
     redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"

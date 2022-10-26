@@ -117,6 +117,7 @@ wildduck:
   mongo:
     host: mongo
     port: 27017
+    authEnabled: false
     username:
     password:
 
@@ -199,6 +200,7 @@ webmail:
   mongo:
     host: mongo
     port: 27017
+    authEnabled: false
     username:
     password:
 
@@ -281,6 +283,7 @@ haraka:
   mongo:
     host: mongo
     port: 27017
+    authEnabled: false
     username:
     password:
 
@@ -363,6 +366,7 @@ zonemta:
   mongo:
     host: mongo
     port: 27017
+    authEnabled: false
     username:
     password:
 
