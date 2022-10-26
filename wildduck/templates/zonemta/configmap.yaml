@@ -44,7 +44,7 @@ data:
     cacheTTL=600 # TTL of cached dns keys in seconds
 
     # Define nameservers to use (IP addresses only). If using a local DNS cache server, then set caching=false
-    nameservers=[1.1.1.1, 8.8.8.8]
+    nameservers=["1.1.1.1", "8.8.8.8"]
 
     #caching=false
     #nameservers=["127.0.0.1"]
