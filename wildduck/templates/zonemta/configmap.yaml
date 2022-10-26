@@ -25,7 +25,7 @@ data:
     # this file is loaded when NODE_ENV=production
 
     # MongoDB connection string
-    mongo="mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta"
+    mongo="mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/wildduck"
 
     # Redis connection string
     redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
@@ -34,7 +34,7 @@ data:
     sender="zone-mta"
 
     # Database name for Wild Duck users
-    # users="wildduck"
+    #users="wildduck"
 
     # Database name for Wild Duck attachments
     # gridfs="wildduck"
