@@ -13,6 +13,13 @@
   </p>
 </div>
 
+## Status
+The current tested status of the helm chart. Not everything is working so far but the status below shows what has been tested and works.
+- [x] Receiving mail
+- [x] Sending mail
+- [ ] IMAP service
+- [ ] POP3 service
+- [ ] SMTP service
 
 ## Adding Helm Chart
 
