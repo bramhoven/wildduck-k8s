@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{include "wildduck.wildduck.fullname" .}}
+  name: {{include "wildduck.wildduck.fullname" .}}-pop3-service
   labels: {{- include "wildduck.wildduck.labels" . | nindent 4}}
 spec:
   type: {{.Values.wildduck.service.pop3Type}}
