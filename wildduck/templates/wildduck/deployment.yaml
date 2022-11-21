@@ -36,11 +36,11 @@ spec:
             - name: http
               containerPort: {{.Values.wildduck.service.httpPort}}
               protocol: TCP
-            - name: imaps
-              containerPort: {{.Values.wildduck.service.imapsPort}}
+            - name: imap
+              containerPort: {{.Values.wildduck.service.imapPort}}
               protocol: TCP
-            - name: pop3s
-              containerPort: {{.Values.wildduck.service.pop3sPort}}
+            - name: pop3
+              containerPort: {{.Values.wildduck.service.pop3Port}}
               protocol: TCP
           livenessProbe:
             httpGet:

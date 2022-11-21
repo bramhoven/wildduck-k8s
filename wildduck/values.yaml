@@ -66,10 +66,12 @@ wildduck:
     accessToken: "wildduck1234"
 
   service:
-    type: ClusterIP
+    httpType: ClusterIP
     httpPort: 80
-    imapsPort: 143
-    pop3sPort: 110
+    imapType: LoadBalancer
+    imapPort: 143
+    pop3Type: LoadBalancer
+    pop3Port: 110
 
   ingress:
     enabled: false

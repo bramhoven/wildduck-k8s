@@ -4,10 +4,10 @@ metadata:
   name: {{include "wildduck.wildduck.fullname" .}}
   labels: {{- include "wildduck.wildduck.labels" . | nindent 4}}
 spec:
-  type: {{.Values.wildduck.service.httpType}}
+  type: {{.Values.wildduck.service.pop3Type}}
   ports:
-    - port: {{.Values.wildduck.service.httpPort}}
-      targetPort: http
+    - port: {{.Values.wildduck.service.pop3Port}}
+      targetPort: pop3 
       protocol: TCP
-      name: http
+      name: pop3
   selector: {{- include "wildduck.wildduck.selectorLabels" . | nindent 4}}
