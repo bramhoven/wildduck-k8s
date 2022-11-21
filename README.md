@@ -17,9 +17,12 @@
 The current tested status of the helm chart. Not everything is working so far but the status below shows what has been tested and works.
 - [x] Receiving mail
 - [x] Sending mail
-- [ ] IMAP service
-- [ ] POP3 service
-- [ ] SMTP service
+- [x] IMAP service
+- [ ] IMAPS service
+- [x] POP3 service
+- [ ] POP3S service
+- [x] SMTP service
+- [ ] SMTPS service
 
 ## Adding Helm Chart
 
