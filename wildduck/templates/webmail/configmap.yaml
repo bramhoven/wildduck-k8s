@@ -82,11 +82,11 @@ data:
         [setup.imap]
             hostname="{{ .Values.mailDomain }}"
             secure=true
-            port={{ .Values.wildduck.service.imapsPort }}
+            port={{ .Values.wildduck.service.imapPort }}
         [setup.pop3]
             hostname="{{ .Values.mailDomain }}"
             secure=true
-            port={{ .Values.wildduck.service.pop3sPort }}
+            port={{ .Values.wildduck.service.pop3Port }}
         [setup.smtp]
             hostname="{{ .Values.mailDomain }}"
             secure=true
