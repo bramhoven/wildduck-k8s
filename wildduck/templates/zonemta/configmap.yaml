@@ -17,7 +17,7 @@ data:
     redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
 
     # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
-    sender="wildduck"
+    sender="zone-mta"
 
     # Redis connection information
     #[redis]
