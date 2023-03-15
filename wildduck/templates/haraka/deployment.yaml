@@ -26,7 +26,6 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.haraka.podSecurityContext | nindent 8 }}
-      hostname: {{ .Values.haraka.reverseDnsHostname }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

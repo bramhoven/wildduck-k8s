@@ -872,6 +872,7 @@ data:
     negative = -
     neutral = /'
   smtp.ini: |-
+    me: {{ .Values.haraka.hostname }}
     ; address to listen on (default: all IPv6 and IPv4 addresses, port 25)
     ; use "[::0]:25" to listen on IPv6 and IPv4 (not all OSes)
     ;listen=[::0]:25
