@@ -263,8 +263,14 @@ data:
     # If enabled then encrypt DKIM keys with the secret password. By default DKIM keys
     # are not encrypted and stored as cleartext. Once set up do not change these values,
     # otherwise decrypting DKIM keys is going to fail
+
+    {{ if .Values.wildduck.dkim.enabled }}
+    cipher="{{ .Values.wildduck.dkim.cipher}}"
+    secret="{{ .Values.wildduck.dkim.secret }}"
+    {{ else }}
     #cipher="aes192"
     #secret="a secret cat"
+    {{ end}}
 
     # If true then spwans openssl command line executable for generating DKIM keys
     # Otherwise forge library is used which is cross-environment but slower

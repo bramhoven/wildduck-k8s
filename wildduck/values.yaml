@@ -65,6 +65,11 @@ wildduck:
     enabled: true
     accessToken: "wildduck1234"
 
+  dkim:
+    enabled: true
+    cipher: "aes192"
+    secret: "a secret cat"
+
   service:
     httpType: ClusterIP
     httpPort: 80
