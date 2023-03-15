@@ -3,6 +3,13 @@ kind: ConfigMap
 metadata:
   name: "{{ include "wildduck.haraka.fullname" . }}-configmap"
 data:
+  access.ini: |-
+    [check]
+    any=false
+    conn=true
+    helo=false
+    mail=true
+    rcpt=true
   access.domains: |-
     # Basic whitelist/blacklist mechanism for domains and e-mail addresses
     # add a single domain or e-mail per line
