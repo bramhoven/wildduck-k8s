@@ -9,7 +9,7 @@
   <h5>Helm chart for running wildduck in kubernetes</h5>
 
   <p align="center">
-    WildDuck is a modern mail server software for IMAP and POP3. Modern being scalable, Unicode-first, and API-controlled. To create a complete mail server, you can bundle WildDuck with Haraka and ZoneMTA.
+    WildDuck is a modern mail server software for IMAP and POP3. Modern being scalable, Unicode-first, and API-controlled. This chart bundles WildDuck with Haraka and ZoneMTA to create a complete mail server.
   </p>
 </div>
 
@@ -21,8 +21,10 @@ The current tested status of the helm chart. Not everything is working so far bu
 - [ ] IMAPS service
 - [x] POP3 service
 - [ ] POP3S service
-- [x] SMTP service
-- [ ] SMTPS service
+- [x] Inbound SMTP service
+- [ ] Inbound SMTPS service
+- [x] Outbound SMTP service
+- [ ] Outbound SMTPS service
 
 ## Adding Helm Chart
 
