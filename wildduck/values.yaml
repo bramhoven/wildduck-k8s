@@ -215,6 +215,7 @@ haraka:
   name: "haraka"
   replicaCount: 1
 
+  reverseDnsHostname: haraka.local
   hosts:
     - haraka.local
 
