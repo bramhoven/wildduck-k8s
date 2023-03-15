@@ -511,7 +511,9 @@ data:
     gmail.com=google.com,gmail.com
   host_list: |-
     # add hosts in here we want to accept mail for
-    haraka.local
+    {{- range .Values.haraka.hosts }}
+    {{ . }}
+    {{- end}}
   host_list_regex: |-
     # Add regexes in here we want to accept mail for.
     # Specifies the list of regexes that are local to this server.  Note

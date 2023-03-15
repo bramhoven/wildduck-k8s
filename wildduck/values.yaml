@@ -215,6 +215,9 @@ haraka:
   name: "haraka"
   replicaCount: 1
 
+  hosts:
+    - haraka.local
+
   image:
     repository: nodemailer/haraka-wildduck
     pullPolicy: IfNotPresent
