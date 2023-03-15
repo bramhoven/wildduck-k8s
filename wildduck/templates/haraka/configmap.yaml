@@ -17,6 +17,9 @@ data:
     # !friend@aol.com
     #
     # See full docs for details:  http://haraka.github.io/manual/plugins/access.html
+    {{- range .Values.haraka.hosts }}
+    {{ . }}
+    {{- end}}
   aliases: |-
     {
     }
