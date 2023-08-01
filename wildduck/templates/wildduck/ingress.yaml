@@ -17,7 +17,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "wildduck.wilduck.labels" . | nindent 4 }}
+    {{- include "wildduck.wildduck.labels" . | nindent 4 }}
   {{- with .Values.wildduck.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
