@@ -17,7 +17,7 @@ data:
     redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
 
     # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
-    sender="zone-mta"
+    sender="wildduck"
 
     # Redis connection information
     #[redis]
@@ -39,7 +39,7 @@ data:
     redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
 
     # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
-    sender="zone-mta"
+    sender="wildduck"
 
     # Database name for Wild Duck users
     #users="wildduck"
