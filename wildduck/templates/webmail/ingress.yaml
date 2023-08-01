@@ -1,5 +1,5 @@
 {{- if .Values.webmail.ingress.enabled -}}
-{{- $fullName := include "wildduck.fullname" . -}}
+{{- $fullName := include "wildduck.wilduck.fullname" . -}}
 {{- $svcPort := .Values.webmail.service.port -}}
 {{- if and .Values.webmail.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.webmail.ingress.annotations "kubernetes.io/ingress.class") }}
@@ -17,7 +17,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "wildduck.labels" . | nindent 4 }}
+    {{- include "wildduck.wilduck.labels" . | nindent 4 }}
   {{- with .Values.webmail.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
