@@ -1,6 +1,6 @@
 {{- if .Values.wildduck.ingress.enabled -}}
 {{- $fullName := include "wildduck.wildduck.fullname" . -}}
-{{- $svcPort := .Values.wildduck.service.port -}}
+{{- $svcPort := .Values.wildduck.service.httpPort -}}
 {{- if and .Values.wildduck.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.wildduck.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.wildduck.ingress.annotations "kubernetes.io/ingress.class" .Values.wildduck.ingress.className}}
