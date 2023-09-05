@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wildduck.duckyapi.fullname" . }}
+  labels:
+    {{- include "wildduck.duckyapi.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.duckyapi.autoscaling.enabled }}
+  replicas: {{ .Values.duckyapi.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "wildduck.duckyapi.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.duckyapi.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "wildduck.duckyapi.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.duckyapi.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.duckyapi.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.duckyapi.securityContext | nindent 12 }}
+          image: "{{ .Values.duckyapi.image.repository }}:{{ .Values.duckyapi.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.duckyapi.image.pullPolicy }}
+          env:
+            - name: SERVE_DUCKYPANEL
+              value: {{.Values.duckyapi.settings.serveDuckyPanel}}
+            - name: BASE_URL
+              value: {{.Values.duckyapi.settings.baseUrl}}
+            - name: TOKEN_SECRET
+              value: {{.Values.duckyapi.settings.tokenSecret}}
+            - name: MONGODB_URL
+              value: {{.Values.duckyapi.settings.mongoDbUrl}}
+            - name: REDIS_URL
+              value: {{.Values.duckyapi.settings.redisUrl}}
+            - name: WILDDUCK_API_URL
+              value: {{.Values.duckyapi.settings.wildduckApiUrl}}
+            - name: WILDDUCK_API_TOKEN
+              value: {{.Values.duckyapi.settings.wildduckApiToken}}
+            - name: MX_RECORDS
+              value: {{.Values.duckyapi.settings.mxRecords}}
+            - name: SPF_CORRECT_VALUE
+              value: {{.Values.duckyapi.settings.spfCorrectValue}}
+            - name: SPF_REGEX
+              value: {{.Values.duckyapi.settings.spfRegex}}
+            - name: DEFAULT_DKIM_SELECTOR
+              value: {{.Values.duckyapi.settings.defaultDKIMSelector}}
+            - name: QUEUE_UI
+              value: {{.Values.duckyapi.settings.queueUI}}
+            - name: QUEUE_UI_USER
+              value: {{.Values.duckyapi.settings.queueUIUser}}
+            - name: QUEUE_UI_PASSWORD
+              value: {{.Values.duckyapi.settings.queueUIPassword}}
+          ports:
+            - name: http
+              containerPort: {{.Values.duckyapi.service.port}}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+          resources:
+            {{- toYaml .Values.duckyapi.resources | nindent 12 }}
+      {{- with .Values.duckyapi.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.duckyapi.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.duckyapi.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

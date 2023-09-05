@@ -1,0 +1,28 @@
+{{- if .Values.duckyapi.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "wildduck.fullname" . }}
+  labels:
+    {{- include "wildduck.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "wildduck.fullname" . }}
+  minReplicas: {{ .Values.duckyapi.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.duckyapi.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.duckyapi.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.duckyapi.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.duckyapi.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.duckyapi.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
