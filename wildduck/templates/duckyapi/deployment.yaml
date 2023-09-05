@@ -65,16 +65,16 @@ spec:
             - name: http
               containerPort: {{.Values.duckyapi.service.port}}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-              scheme: HTTP
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-              scheme: HTTP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #     scheme: HTTP
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #     scheme: HTTP
           resources:
             {{- toYaml .Values.duckyapi.resources | nindent 12 }}
       {{- with .Values.duckyapi.nodeSelector }}
