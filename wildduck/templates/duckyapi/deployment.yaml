@@ -34,7 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.duckyapi.image.pullPolicy }}
           env:
             - name: SERVE_DUCKYPANEL
-              value: {{.Values.duckyapi.settings.serveDuckyPanel}}
+              value: {{.Values.duckyapi.settings.serveDuckyPanel | quote}}
             - name: BASE_URL
               value: {{.Values.duckyapi.settings.baseUrl}}
             - name: TOKEN_SECRET
@@ -48,7 +48,7 @@ spec:
             - name: WILDDUCK_API_TOKEN
               value: {{.Values.duckyapi.settings.wildduckApiToken}}
             - name: MX_RECORDS
-              value: {{.Values.duckyapi.settings.mxRecords}}
+              value: {{.Values.duckyapi.settings.mxRecords | quote}}
             - name: SPF_CORRECT_VALUE
               value: {{.Values.duckyapi.settings.spfCorrectValue}}
             - name: SPF_REGEX
@@ -56,7 +56,7 @@ spec:
             - name: DEFAULT_DKIM_SELECTOR
               value: {{.Values.duckyapi.settings.defaultDKIMSelector}}
             - name: QUEUE_UI
-              value: {{.Values.duckyapi.settings.queueUI}}
+              value: {{.Values.duckyapi.settings.queueUI | quote}}
             - name: QUEUE_UI_USER
               value: {{.Values.duckyapi.settings.queueUIUser}}
             - name: QUEUE_UI_PASSWORD
