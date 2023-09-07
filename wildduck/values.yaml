@@ -459,9 +459,9 @@ duckyapi:
     wildduckApiUrl: ""
     wildduckApiToken: ""
     mxRecords: '[{"exchange": "mx1.example.com", "priority": 10}, {"exchange": "mx2.example.com", "priority": 20}]' 
-    spfCorrectValue: ""
-    spfRegex: ""
-    defaultDKIMSelector: ""
+    spfCorrectValue: "v=spf1 include:bramdev.nl -all"
+    spfRegex: "^v=spf.* include:example.com.*(-|~|\\?)all$"
+    defaultDKIMSelector: "ducky"
     queueUI: false
     queueUIUser: ""
     queueUIPassword: ""
