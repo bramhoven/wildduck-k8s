@@ -31,7 +31,7 @@ data:
             logoutRedirect = "http:/127.0.0.1:3000/logout"  # URL to redirect when user clicks on "log out"
 
     [api]
-        url="http://{{ include "wildduck.wildduck.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{.Values.wildduck.service.httpPort}}"
+        url="http://{{ include "wildduck.wildduck.fullname" . }}-http-service.{{ .Release.Namespace }}.svc.cluster.local:{{.Values.wildduck.service.httpPort}}"
         accessToken="{{ .Values.wildduck.auth.accessToken }}"
 
     [dbs]
