@@ -8,6 +8,11 @@ fullnameOverride: ""
 mailDomain: mail.wildduck.lan
 webMailDomain: wildduck.lan
 
+dkim:
+  enabled: false
+  secret: a secret cat
+  cipher: aes192
+
 redis:
   host: redis
   port: 6379
@@ -64,11 +69,6 @@ wildduck:
   auth:
     enabled: true
     accessToken: "wildduck1234"
-
-  dkim:
-    enabled: true
-    cipher: "aes192"
-    secret: "a secret cat"
 
   service:
     httpType: ClusterIP

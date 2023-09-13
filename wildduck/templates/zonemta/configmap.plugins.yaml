@@ -96,13 +96,13 @@ data:
 
     ["modules/zonemta-wildduck".dkim]
         # If true then also adds a signature for the outbound domain
-        signTransportDomain=false
+        signTransportDomain={{ .Values.dkim.enabled }}
 
         # If set then decrypt encrypted DKIM keys using this password
-        #secret="a secret cat"
+        secret={{ .Values.dkim.secret }}
 
         # Cipher to use to decrypt encrypted DKIM keys
-        #cipher="aes192"
+        cipher={{ .Values.dkim.cipher }}
 
 
     ["modules/zonemta-wildduck".gelf]
