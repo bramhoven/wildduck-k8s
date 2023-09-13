@@ -236,7 +236,11 @@ data:
 
     # Optional database name or connection url for ZoneMTA queue database. This is
     # used to push outbound emails to the sending queue
-    sender="zone-mta"
+    {{ if .Values.wildduck.mongo.authEnabled }}
+    mongo="mongodb://{{ .Values.wildduck.mongo.usernameZoneMta }}:{{ .Values.wildduck.mongo.passwordZoneMta }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/zone-mta"
+    {{ else }}
+    mongo="mongodb://{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/zone-mta"
+    {{ end }}
 
     #queued="mail"
 

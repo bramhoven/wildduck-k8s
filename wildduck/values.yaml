@@ -127,6 +127,8 @@ wildduck:
     authEnabled: false
     username:
     password:
+    usernameZoneMta:
+    passwordZoneMta:
 
 webmail:
   name: "webmail"
