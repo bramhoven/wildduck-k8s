@@ -7,10 +7,10 @@ data:
     # Database configuration
 
     # MongoDB connection string
-    {{ if .Values.wildduck.mongo.authEnabled }}
-    mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck"
+    {{ if .Values.zonemta.mongo.authEnabled }}
+    mongo="mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/wildduck"
     {{ else }}
-    mongo="mongodb://{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck"
+    mongo="mongodb://{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/wildduck"
     {{ end }}
     
     # Redis connection string
@@ -29,10 +29,10 @@ data:
     # this file is loaded when NODE_ENV=production
 
     # MongoDB connection string
-    {{ if .Values.wildduck.mongo.authEnabled }}
-    mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/zone-mta"
+    {{ if .Values.zonemta.mongo.authEnabled }}
+    mongo="mongodb://{{ .Values.zonemta.mongo.username }}:{{ .Values.zonemta.mongo.password }}@{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta"
     {{ else }}
-    mongo="mongodb://{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/zone-mta"
+    mongo="mongodb://{{ .Values.zonemta.mongo.host }}:{{ .Values.zonemta.mongo.port }}/zone-mta"
     {{ end }}
 
     # Redis connection string
