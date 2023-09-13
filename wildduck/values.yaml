@@ -300,6 +300,12 @@ haraka:
     username:
     password:
 
+  plugins:
+  - spf
+  - dkim_verify
+  - access
+  - rspamd
+  - tls
 zonemta:
   name: "zonemta"
   replicaCount: 1
