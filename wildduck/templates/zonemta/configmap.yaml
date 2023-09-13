@@ -30,16 +30,16 @@ data:
 
     # MongoDB connection string
     {{ if .Values.wildduck.mongo.authEnabled }}
-    mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck"
+    mongo="mongodb://{{ .Values.wildduck.mongo.username }}:{{ .Values.wildduck.mongo.password }}@{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/zone-mta"
     {{ else }}
-    mongo="mongodb://{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/wildduck"
+    mongo="mongodb://{{ .Values.wildduck.mongo.host }}:{{ .Values.wildduck.mongo.port }}/zone-mta"
     {{ end }}
 
     # Redis connection string
     redis="redis://{{ .Values.redis.username }}:{{ .Values.redis.password }}@{{ .Values.redis.host }}:{{ .Values.redis.port }}/2"
 
     # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
-    sender="wildduck"
+    sender="zone-mta"
 
     # Database name for Wild Duck users
     #users="wildduck"
