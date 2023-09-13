@@ -42,7 +42,7 @@ data:
     sender="zone-mta"
 
     # Database name for Wild Duck users
-    #users="wildduck"
+    users="wildduck"
 
     # Database name for Wild Duck attachments
     # gridfs="wildduck"
