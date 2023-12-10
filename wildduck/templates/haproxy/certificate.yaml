@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "wildduck.haproxy.tldDomain" . }}-wilduck-certificate
+  labels:
+    {{- include "wildduck.haproxy.labels" . | nindent 4 }}
+spec:
+  dnsNames:
+    - {{.Values.haproxy.tlsDomain }}
+  issuerRef:
+    group: cert-manager.k8s.cloudflare.com
+    kind: ClusterIssuer
+    name: letsencrypt-cluster-issuer
+  secretName: {{.Values.haproxy.tlsDomain }}-wildduck
+
