@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{include "wildduck.haproxy.fullname" .}}-pop3s
+  labels: {{- include "wildduck.haproxy.labels" . | nindent 4}}
+spec:
+  type: {{.Values.haproxy.service.pop3sType }}
+  ports:
+    - port: {{.Values.haproxy.service.pop3sPort }}
+      targetPort: pop3s
+      protocol: TCP
+      name: pop3s
+  selector: {{- include "wildduck.haproxy.selectorLabels" . | nindent 4}}

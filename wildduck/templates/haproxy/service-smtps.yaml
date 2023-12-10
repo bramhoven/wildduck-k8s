@@ -10,12 +10,4 @@ spec:
       targetPort: smtps
       protocol: TCP
       name: smtps
-    - port: {{.Values.haproxy.service.imapsPort }}
-      targetPort: imaps
-      protocol: TCP
-      name: imaps
-    - port: {{.Values.haproxy.service.pop3sPort }}
-      targetPort: pop3s
-      protocol: TCP
-      name: pop3s
   selector: {{- include "wildduck.haproxy.selectorLabels" . | nindent 4}}
