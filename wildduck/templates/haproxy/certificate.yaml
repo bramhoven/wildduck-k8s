@@ -8,7 +8,6 @@ spec:
   dnsNames:
     - {{ .Values.haproxy.tlsDomain }}
   issuerRef:
-    group: cert-manager.k8s.cloudflare.com
     kind: ClusterIssuer
     name: letsencrypt-cluster-issuer
   secretName: {{.Values.haproxy.tlsDomain }}-wildduck
