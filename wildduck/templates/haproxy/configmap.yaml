@@ -5,15 +5,15 @@ metadata:
 data:
   haproxy.cfg: |-
     frontend bramdev.nl.smtp.frontend
-      bind :587 ssl crt /etc/ssl/certs/crt.key
+      bind :587 ssl crt /etc/ssl/certs/tls.key
       default_backend bramdev.nl.smtp.backend
 
     frontend bramdev.nl.smtp.frontend
-      bind :995 ssl crt /etc/ssl/certs/crt.key
+      bind :995 ssl crt /etc/ssl/certs/tls.key
       default_backend bramdev.nl.pop3.backend
 
     frontend bramdev.nl.imap.frontend
-      bind :993 ssl crt /etc/ssl/certs/crt.key
+      bind :993 ssl crt /etc/ssl/certs/tls.key
       default_backend bramdev.nl.imap.backend
 
     backend bramdev.nl.smtp

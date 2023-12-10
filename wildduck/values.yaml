@@ -137,10 +137,10 @@ haproxy:
   tlsDomain: example.com
 
   image:
-    repository: haproxytech/haproxy-alpine
+    repository: haproxy
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    tag: lts-alpine
 
   imagePullSecrets: []
   nameOverride: ""
