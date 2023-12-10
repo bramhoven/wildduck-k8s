@@ -57,7 +57,11 @@ spec:
           - name: {{ include "wildduck.haproxy.fullname" . }}-config-volume
             mountPath: /usr/local/etc/haproxy
           - name: {{ include "wildduck.haproxy.fullname" . }}-cert-volume
-            mountPath: /etc/ssl/certs
+            subPath: tls.crt
+            mountPath: /etc/ssl/certs/tls.crt
+          - name: {{ include "wildduck.haproxy.fullname" . }}-cert-volume
+            subPath: tls.key
+            mountPath: /etc/ssl/certs/tls.crt.key
           resources:
             {{- toYaml .Values.haproxy.resources | nindent 12 }}
       volumes:
