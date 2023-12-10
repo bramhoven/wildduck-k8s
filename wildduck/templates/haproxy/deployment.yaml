@@ -34,9 +34,15 @@ spec:
           imagePullPolicy: {{ .Values.haproxy.image.pullPolicy }}
           env:
           ports:
-            - name: http
-              containerPort: {{.Values.haproxy.service.port}}
-              protocol: TCP
+            - name: smtps
+              containerPort: {{.Values.haproxy.service.smtpsPort }}
+              protocol: smtps
+            - name: imaps
+              containerPort: {{.Values.haproxy.service.imapsPort }}
+              protocol: imaps
+            - name: pop3s
+              containerPort: {{.Values.haproxy.service.pop3sPort }}
+              protocol: pop3s
           # livenessProbe:
           #   httpGet:
           #     path: /
