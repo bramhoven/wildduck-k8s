@@ -6,8 +6,12 @@ metadata:
 spec:
   type: {{.Values.haraka.service.type}}
   ports:
-    - port: {{.Values.haraka.service.port}}
+    - port: {{.Values.haraka.service.smtpPort}}
       targetPort: smtp
       protocol: TCP
       name: smtp
+    - port: {{.Values.haraka.service.smtpsPort}}
+      targetPort: smtps
+      protocol: TCP
+      name: smtps
   selector: {{- include "wildduck.haraka.selectorLabels" . | nindent 4}}

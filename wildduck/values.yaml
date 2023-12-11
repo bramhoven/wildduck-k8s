@@ -319,7 +319,8 @@ haraka:
 
   service:
     type: LoadBalancer
-    port: 25
+    smtpPort: 25
+    smtpsPort: 587
 
   resources:
     {}

@@ -49,7 +49,6 @@ spec:
               containerPort: {{.Values.wildduck.service.pop3sPort}}
               protocol: TCP
           livenessProbe:
-          livenessProbe:
             httpGet:
               path: /users
               port: http
