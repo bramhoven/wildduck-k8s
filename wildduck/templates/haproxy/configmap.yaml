@@ -4,23 +4,23 @@ metadata:
   name: "{{ include "wildduck.haproxy.fullname" . }}-configmap"
 data:
   haproxy.cfg: |-
-    frontend bramdev.nl.smtp.frontend
+    frontend smtp.frontend
       bind :587 ssl crt /etc/ssl/certs/tls.crt
-      default_backend bramdev.nl.smtp.backend
+      default_backend smtp.backend
 
-    frontend bramdev.nl.smtp.frontend
+    frontend pop3.frontend
       bind :995 ssl crt /etc/ssl/certs/tls.crt
-      default_backend bramdev.nl.pop3.backend
+      default_backend pop3.backend
 
-    frontend bramdev.nl.imap.frontend
+    frontend imap.frontend
       bind :993 ssl crt /etc/ssl/certs/tls.crt
-      default_backend bramdev.nl.imap.backend
+      default_backend imap.backend
 
-    backend bramdev.nl.smtp
+    backend smtp.backend
       server haraka wildduck-haraka-service:25
 
-    backend bramdev.nl.pop3
+    backend pop3.backend
       server imap wildduck-pop3-service:110
 
-    backend bramdev.nl.imap
+    backend imap.backend
       server imap wildduck-imap-service:143
