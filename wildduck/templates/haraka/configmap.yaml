@@ -1055,7 +1055,7 @@ data:
     {{ if .Values.tls.enabled }}
     key=/opt/certs/tls.key
     cert=/opt/certs/tls.crt
-    dhparam=dhparams.pem
+    ; dhparam=dhparams.pem
 
     ; ciphers: a list of permitted ciphers
     ; The default cipher list is provided by node.js and is considered secure at

@@ -57,6 +57,10 @@ spec:
             mountPath: /app/config/plugins
           - name: {{ include "wildduck.zonemta.fullname" . }}-zones-config-volume
             mountPath: /app/config/zones
+          {{ if .Values.tls.enabled }}
+          - name: {{ include "wildduck.zonemta.fullname" . }}-cert-volume
+            mountPath: /opt/certs/
+          {{ end }}
       volumes:
         - name: {{ include "wildduck.zonemta.fullname" . }}-config-volume
           configMap:
@@ -70,6 +74,11 @@ spec:
         - name: {{ include "wildduck.zonemta.fullname" . }}-zones-config-volume
           configMap:
             name: {{ include "wildduck.zonemta.fullname" . }}-zones-configmap
+        {{ if .Values.tls.enabled }}
+        - name: {{ include "wildduck.zonemta.fullname" . }}-cert-volume
+          secret:
+            secretName: {{ .Values.tls.domain }}-wildduck
+        {{ end }}
       {{- with .Values.zonemta.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
