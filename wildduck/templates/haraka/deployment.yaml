@@ -36,9 +36,6 @@ spec:
             - name: smtp 
               containerPort: {{.Values.haraka.service.smtpPort}}
               protocol: TCP
-            - name: smtps
-              containerPort: {{.Values.haraka.service.smtpsPort}}
-              protocol: TCP
           livenessProbe:
             tcpSocket:
               port: smtp
