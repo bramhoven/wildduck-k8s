@@ -286,12 +286,12 @@ data:
   imap.toml: |-
     # If enabled then WildDuck exposes an IMAP interface for listing and fetching emails
     enabled=true
-    port=143
+    port={{ if .Values.tls.enabled }}993{{ else }}143{{ end }}
     host="0.0.0.0"
 
     # Use `true` for port 993 and `false` for 143. If connection is not secured
     # on connection then WildDuck enables STARTTLS extension
-    secure=false
+    secure={{ .Values.tls.enabled }}
  
     # Max size for messages uploaded via APPEND
     maxMB=25
@@ -402,7 +402,7 @@ data:
   pop3.toml: |-
     # If enabled then WildDuck exposes a limited POP3 interface for listing and fetching emails
     enabled=true
-    port=110
+    port={{ if .Values.tls.enabled }}995{{ else }}110{{ end }}
     # by default bind to localhost only
     host="0.0.0.0"
 
@@ -410,7 +410,7 @@ data:
     disableSTARTTLS={{ if .Values.tls.enabled }}false{{ else }}true{{ end }}
 
     # Use `true` for port 995 and `false` for 110
-    secure=false
+    secure={{ .Values.tls.enabled }}
 
     # If true, then do not show server info in CAPA response
     disableVersionString=false
