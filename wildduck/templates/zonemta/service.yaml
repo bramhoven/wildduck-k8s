@@ -10,4 +10,8 @@ spec:
       targetPort: smtp
       protocol: TCP
       name: smtp
+    - port: {{.Values.zonemta.service.sslPort}}
+      targetPort: smtp
+      protocol: TCP
+      name: smtp
   selector: {{- include "wildduck.zonemta.selectorLabels" . | nindent 4}}

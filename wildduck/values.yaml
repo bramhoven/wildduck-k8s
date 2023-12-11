@@ -402,6 +402,7 @@ zonemta:
   service:
     type: LoadBalancer
     port: 587
+    sslPort: 465
 
   resources:
     {}
