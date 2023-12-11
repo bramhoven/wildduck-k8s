@@ -10,8 +10,4 @@ spec:
       targetPort: smtp
       protocol: TCP
       name: smtp
-    - port: {{.Values.haraka.service.smtpsPort}}
-      targetPort: smtps
-      protocol: TCP
-      name: smtps
   selector: {{- include "wildduck.haraka.selectorLabels" . | nindent 4}}
