@@ -99,10 +99,10 @@ data:
         signTransportDomain={{ .Values.dkim.enabled }}
 
         # If set then decrypt encrypted DKIM keys using this password
-        secret={{ .Values.dkim.secret }}
+        secret="{{ .Values.dkim.secret }}"
 
         # Cipher to use to decrypt encrypted DKIM keys
-        cipher={{ .Values.dkim.cipher }}
+        cipher="{{ .Values.dkim.cipher }}"
 
 
     ["modules/zonemta-wildduck".gelf]
