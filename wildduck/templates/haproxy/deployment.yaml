@@ -32,7 +32,11 @@ spec:
             {{- toYaml .Values.haproxy.securityContext | nindent 12 }}
           image: "{{ .Values.haproxy.image.repository }}:{{ .Values.haproxy.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.haproxy.image.pullPolicy }}
-          env:
+          lifecycle:
+           postStart:
+             exec:
+               command:
+                 - echo "" >> /usr/local/etc/haproxy/haproxy.cfg
           ports:
             - name: smtps
               containerPort: {{.Values.haproxy.service.smtpsPort }}
