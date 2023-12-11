@@ -70,7 +70,7 @@ spec:
           - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
             mountPath: /wildduck/config
           {{ if .Values.tls.enabled }}
-          - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
+          - name: {{ include "wildduck.wildduck.fullname" . }}-cert-volume
             mountPath: /opt/certs/
           {{ end }}
       volumes:
