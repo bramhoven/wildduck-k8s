@@ -4,4 +4,4 @@ metadata:
   name: "{{ include "wildduck.haraka.fullname" . }}-dhparams-configmap"
 data:
   dhparams.pem: |+
-    {{ .Value.haraka.dhparams | indent 2 }}
+    {{ .Values.haraka.dhparams | indent 2 }}
