@@ -10,5 +10,5 @@ spec:
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-cluster-issuer
-  secretName: {{.Values.wildduck.tlsDomain }}-wildduck
+  secretName: {{.Values.tls.domain }}-wildduck
 
