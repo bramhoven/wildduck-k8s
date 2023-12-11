@@ -3,5 +3,4 @@ kind: ConfigMap
 metadata:
   name: "{{ include "wildduck.haraka.fullname" . }}-dhparams-configmap"
 data:
-  dhparams.pem: |+
-    {{ .Values.haraka.dhparams }}
+  dhparams.pem: {{- .Values.haraka.dhparams | toYaml | indent 1 }}
