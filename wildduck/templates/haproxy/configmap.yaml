@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: "{{ include "wildduck.haproxy.fullname" . }}-configmap"
 data:
-  haproxy.cfg: |-
+  haproxy.cfg: |
     frontend smtp.frontend
       bind :587 ssl crt /etc/ssl/certs/tls.crt
       default_backend smtp.backend
@@ -24,5 +24,4 @@ data:
 
     backend imap.backend
       server imap wildduck-imap-service.wildduck.svc.cluster.local:143
-
 
