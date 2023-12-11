@@ -17,11 +17,11 @@ data:
       default_backend imap.backend
 
     backend smtp.backend
-      server haraka wildduck-haraka-service:25
+      server haraka wildduck-haraka-service.wildduck.svc.cluster.local:25
 
     backend pop3.backend
-      server imap wildduck-pop3-service:110
+      server imap wildduck-pop3-service.wildduck.svc.cluster.local:110
 
     backend imap.backend
-      server imap wildduck-imap-service:143
+      server imap wildduck-imap-service.wildduck.svc.cluster.local:143
 
