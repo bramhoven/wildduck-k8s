@@ -56,6 +56,8 @@ spec:
           {{ if .Values.tls.enabled }}
           - name: {{ include "wildduck.haraka.fullname" . }}-cert-volume
             mountPath: /opt/certs/
+          - name: {{ include "wildduck.haraka.fullname" . }}-dhparams-volume
+            mountPath: /opt/dh/
           {{ end }}
       volumes:
         - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
@@ -68,6 +70,9 @@ spec:
         - name: {{ include "wildduck.haraka.fullname" . }}-cert-volume
           secret:
             secretName: {{ .Values.tls.domain }}-wildduck
+        - name: {{ include "wildduck.haraka.fullname" . }}-dhparams-volume
+          configMap:
+            name: {{ include "wildduck.haraka.fullname" . }}-dhparams-configmap
         {{ end }}
       {{- with .Values.haraka.nodeSelector }}
       nodeSelector:

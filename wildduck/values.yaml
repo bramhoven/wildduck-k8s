@@ -292,6 +292,16 @@ haraka:
   hosts:
     - haraka.local
 
+  dhparams: |-
+    -----BEGIN DH PARAMETERS-----
+    MIIBCAKCAQEA49KafGMs8UVwxLKeNGPPpt2yHq7xJ+RY+Uwi+yBWv9ScjfA0aGb1
+    QvbQj2PIo4BLB7kkICbWeWaqSzfelpP1ldlS2OjYVu/O95u3UFdiPFVSKesNCoiS
+    gPRq47vkV1of6yaDG+86V9888HV+5Ii06Fh3drRJ+VI6QqNTwm1axnjvMD7s80RS
+    jRHPVoI2XPd4NpAn3y5ioZTqaWzhHkdS1Js4/QDv4P84kQAx/7ZWMMVQYscqv9sC
+    A/n4UL3YLK7mbnyf8L9UF8rOfrp4AIIovx80jyvPSKWfsZ36P3328yNSys9IYZfn
+    CirTTntjPjs4cCIAG71+1dUwAJipEvsC9wIBAg==
+    -----END DH PARAMETERS-----
+
   image:
     repository: nodemailer/haraka-wildduck
     pullPolicy: IfNotPresent
