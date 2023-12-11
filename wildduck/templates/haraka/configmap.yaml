@@ -1052,20 +1052,21 @@ data:
   tls.ini: |-
     ; See 'haraka -h tls'
 
-    ; key=tls_key.pem
-    ; cert=tls_cert.pem
-    ; dhparam=dhparams.pem
+    {{ if eq .Values.tls.enabled "true "}}
+    key=/opt/certs/tls.key
+    cert=/opt/certs/tls.crt
+    dhparam=dhparams.pem
 
     ; ciphers: a list of permitted ciphers
     ; The default cipher list is provided by node.js and is considered secure at
     ; the time of that versions release. If you have problems with the default cipher
     ; list, try enabling this "kinda high but more compatible" setting.
-    ; ciphers=ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4
+    ciphers=ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4
 
     ; minimum TLS version (node.js 11.4+ required)
     ; Allowed values are 'TLSv1.3', 'TLSv1.2', 'TLSv1.1', or 'TLSv1'
     ; The default value is node.js's tls.DEFAULT_MIN_VERSION
-    ; minVersion=TLSv1
+    minVersion=TLSv1
 
     ; honorCipherOrder=true
     ; rejectUnauthorized=false
@@ -1081,6 +1082,7 @@ data:
     ; send client certificate(s). If you use this setting and value it, report
     ; your use case at https://github.com/haraka/Haraka/issues/2693
     ; mutual_tls=false
+    {{ end }}
 
 
     [redis]

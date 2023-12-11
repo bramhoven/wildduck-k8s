@@ -39,9 +39,16 @@ spec:
             - name: imap
               containerPort: {{.Values.wildduck.service.imapPort}}
               protocol: TCP
+            - name: imaps
+              containerPort: {{.Values.wildduck.service.imapsPort}}
+              protocol: TCP
             - name: pop3
               containerPort: {{.Values.wildduck.service.pop3Port}}
               protocol: TCP
+            - name: pop3s
+              containerPort: {{.Values.wildduck.service.pop3sPort}}
+              protocol: TCP
+          livenessProbe:
           livenessProbe:
             httpGet:
               path: /users
@@ -63,10 +70,15 @@ spec:
           volumeMounts:
           - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
             mountPath: /wildduck/config
+          - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
+            mountPath: /opt/certs/
       volumes:
         - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
           configMap:
             name: {{ include "wildduck.wildduck.fullname" . }}-configmap
+        - name: {{ include "wildduck.wildduck.fullname" . }}-cert-volume
+          secret:
+            secretName: {{ .Values.tls.domain }}-wildduck
       {{- with .Values.wildduck.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

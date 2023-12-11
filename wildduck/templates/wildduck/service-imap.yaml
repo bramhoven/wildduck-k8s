@@ -10,4 +10,8 @@ spec:
       targetPort: imap
       protocol: TCP
       name: imap
+    - port: {{.Values.wildduck.service.imapsPort}}
+      targetPort: imaps
+      protocol: TCP
+      name: imaps
   selector: {{- include "wildduck.wildduck.selectorLabels" . | nindent 4}}

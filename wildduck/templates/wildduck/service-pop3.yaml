@@ -10,4 +10,8 @@ spec:
       targetPort: pop3 
       protocol: TCP
       name: pop3
+    - port: {{.Values.wildduck.service.pop3sPort}}
+      targetPort: pop3s
+      protocol: TCP
+      name: pop3s
   selector: {{- include "wildduck.wildduck.selectorLabels" . | nindent 4}}

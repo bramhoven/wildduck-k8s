@@ -13,6 +13,10 @@ dkim:
   secret: a secret cat
   cipher: aes192
 
+tls:
+  enabled: false
+  domain: example.com
+
 redis:
   host: redis
   port: 6379
@@ -75,8 +79,10 @@ wildduck:
     httpPort: 80
     imapType: LoadBalancer
     imapPort: 143
+    imapsPort: 993
     pop3Type: LoadBalancer
     pop3Port: 110
+    pop3sPort: 995
 
   ingress:
     enabled: false

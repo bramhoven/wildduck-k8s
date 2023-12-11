@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.wildduck.tlsDomain }}-wilduck-certificate
+  labels:
+    {{- include "wildduck.wildduck.labels" . | nindent 4 }}
+spec:
+  dnsNames:
+    - {{ .Values.wildduck.tlsDomain }}
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-cluster-issuer
+  secretName: {{.Values.wildduck.tlsDomain }}-wildduck
+
