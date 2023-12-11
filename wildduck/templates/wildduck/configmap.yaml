@@ -312,7 +312,7 @@ data:
     disableRetention=false
 
     # If true, then disables STARTTLS support
-    disableSTARTTLS={{ if eq .Values.tls.enabled "true" }}false{{ else }}true{{ end }}
+    disableSTARTTLS={{ if .Values.tls.enabled }}false{{ else }}true{{ end }}
 
     # If true, then advertises COMPRESS=DEFLATE capability
     enableCompression=false
@@ -350,7 +350,7 @@ data:
 
     [tls]
     ## If certificate path is not defined, use global or built-in self-signed certs
-    {{ if eq .Values.tls.enabled "true" }}
+    {{ if .Values.tls.enabled }}
     key="/opt/certs/tls.key"
     cert="/opt/certs/tls.crt"
     {{  end }}
@@ -384,7 +384,7 @@ data:
     maxMB=25
 
     # If true then disables STARTTLS usage
-    disableSTARTTLS={{ if eq .Values.tls.enabled "true" }}false{{ else }}true{{ end }}
+    disableSTARTTLS={{ if .Values.tls.enabled }}false{{ else }}true{{ end }}
 
     # Greeting message for connecting client
     banner="Welcome to WildDuck Mail Server"
@@ -394,7 +394,7 @@ data:
 
     [tls]
     # If certificate path is not defined, use global or built-in self-signed certs for STARTTLS
-    {{ if eq .Values.tls.enabled "true" }}
+    {{ if .Values.tls.enabled }}
     key="/opt/certs/tls.key"
     cert="/opt/certs/tls.crt"
     {{  end }}
@@ -406,7 +406,7 @@ data:
     host="0.0.0.0"
 
     # If true, then disables STARTTLS support
-    disableSTARTTLS={{ if eq .Values.tls.enabled "true" }}false{{ else }}true{{ end }}
+    disableSTARTTLS={{ if .Values.tls.enabled }}false{{ else }}true{{ end }}
 
     # Use `true` for port 995 and `false` for 110
     secure={{ .Values.tls.enabled }}
@@ -432,7 +432,7 @@ data:
 
     [tls]
     # If certificate path is not defined, use global or built-in self-signed certs
-    {{ if eq .Values.tls.enabled "true" }}
+    {{ if .Values.tls.enabled }}
     key="/opt/certs/tls.key"
     cert="/opt/certs/tls.crt"
     {{  end }}

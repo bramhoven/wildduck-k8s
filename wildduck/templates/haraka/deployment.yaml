@@ -53,8 +53,10 @@ spec:
             mountPath: /app/config
           - name: {{ include "wildduck.haraka.fullname" . }}-dkim-config-volume
             mountPath: /app/config/dkim
+          {{ if .Values.tls.enabled }}
           - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
             mountPath: /opt/certs/
+          {{ end }}
       volumes:
         - name: {{ include "wildduck.haraka.fullname" . }}-config-volume
           configMap:
@@ -62,9 +64,11 @@ spec:
         - name: {{ include "wildduck.haraka.fullname" . }}-dkim-config-volume
           configMap:
             name: {{ include "wildduck.haraka.fullname" . }}-dkim-configmap
+        {{ if .Values.tls.enabled }}
         - name: {{ include "wildduck.haraka.fullname" . }}-cert-volume
           secret:
             secretName: {{ .Values.tls.domain }}-wildduck
+        {{ end }}
       {{- with .Values.haraka.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

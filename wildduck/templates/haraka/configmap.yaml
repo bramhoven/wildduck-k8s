@@ -1052,7 +1052,7 @@ data:
   tls.ini: |-
     ; See 'haraka -h tls'
 
-    {{ if eq .Values.tls.enabled "true "}}
+    {{ if .Values.tls.enabled }}
     key=/opt/certs/tls.key
     cert=/opt/certs/tls.crt
     dhparam=dhparams.pem

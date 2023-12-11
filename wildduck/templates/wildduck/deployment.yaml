@@ -70,15 +70,19 @@ spec:
           volumeMounts:
           - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
             mountPath: /wildduck/config
+          {{ if .Values.tls.enabled }}
           - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
             mountPath: /opt/certs/
+          {{ end }}
       volumes:
         - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
           configMap:
             name: {{ include "wildduck.wildduck.fullname" . }}-configmap
+        {{ if .Values.tls.enabled }}
         - name: {{ include "wildduck.wildduck.fullname" . }}-cert-volume
           secret:
             secretName: {{ .Values.tls.domain }}-wildduck
+        {{ end }}
       {{- with .Values.wildduck.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
