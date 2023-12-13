@@ -18,13 +18,13 @@ The current tested status of the helm chart. Not everything is working so far bu
 - [x] Receiving mail
 - [x] Sending mail
 - [x] IMAP service
-- [ ] IMAPS service
+- [x] IMAPS service
 - [x] POP3 service
-- [ ] POP3S service
+- [x] POP3S service
 - [x] Inbound SMTP service
-- [ ] Inbound SMTPS service
+- [x] Inbound SMTPS service
 - [x] Outbound SMTP service
-- [ ] Outbound SMTPS service
+- [x] Outbound SMTPS service
 
 ## Adding Helm Chart
 
