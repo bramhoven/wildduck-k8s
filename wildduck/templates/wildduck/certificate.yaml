@@ -6,7 +6,7 @@ metadata:
     {{- include "wildduck.wildduck.labels" . | nindent 4 }}
 spec:
   dnsNames:
-    - {{ .Values.wildduck.tlsDomain }}
+    - {{ .Values.tls.domain }}
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-cluster-issuer
