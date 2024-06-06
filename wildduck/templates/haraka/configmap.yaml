@@ -861,7 +861,7 @@ data:
     authenticated=true
     private_ip=true
     [reject]
-    spam = false
+    spam = true
     [soft_reject]
     enabled = true
     [rmilter_headers]
