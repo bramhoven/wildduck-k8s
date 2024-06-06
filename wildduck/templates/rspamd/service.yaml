@@ -7,7 +7,7 @@ spec:
   type: {{.Values.rspamd.service.type}}
   ports:
     - port: {{.Values.rspamd.service.port}}
-      targetPort: http
+      targetPort: rspamd
       protocol: TCP
-      name: http
+      name: rspamd
   selector: {{- include "wildduck.rspamd.selectorLabels" . | nindent 4}}
