@@ -108,9 +108,10 @@ data:
     enabled = true
   acme.toml: |-
     # ACME production settings
-    key = "production" # variable to identify account settings for specified directory url
+    key = "production"
     directoryUrl = "https://acme-v02.api.letsencrypt.org/directory"
-    email = "domainadmin@example.com" # must be valid email address
+    email = "{{ .Values.acmeEmail }}"
+
 
     # ACME development settings
     #key = "devel" # variable to identify account settings for specified directory url
