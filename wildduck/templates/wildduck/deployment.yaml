@@ -33,7 +33,8 @@ spec:
           image: "{{ .Values.wildduck.image.repository }}:{{ .Values.wildduck.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.wildduck.image.pullPolicy }}
           env:
-            - WILDDUCK_CONFIG: /opt/config/default.toml
+            - name: WILDDUCK_CONFIG
+            - value: /opt/config/default.toml
           ports:
             - name: http
               containerPort: {{.Values.wildduck.service.httpPort}}
