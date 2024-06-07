@@ -32,6 +32,8 @@ spec:
             {{- toYaml .Values.wildduck.securityContext | nindent 12 }}
           image: "{{ .Values.wildduck.image.repository }}:{{ .Values.wildduck.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.wildduck.image.pullPolicy }}
+          env:
+            - WILDDUCK_CONFIG: /opt/config/default.toml
           ports:
             - name: http
               containerPort: {{.Values.wildduck.service.httpPort}}
@@ -68,7 +70,7 @@ spec:
             {{- toYaml .Values.wildduck.resources | nindent 12 }}
           volumeMounts:
           - name: {{ include "wildduck.wildduck.fullname" . }}-config-volume
-            mountPath: /wildduck/config
+            mountPath: /opt/config
           {{ if .Values.tls.enabled }}
           - name: {{ include "wildduck.wildduck.fullname" . }}-cert-volume
             mountPath: /opt/certs/
