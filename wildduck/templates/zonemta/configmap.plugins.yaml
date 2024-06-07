@@ -140,7 +140,7 @@ data:
     # Must match with ACME settings in WildDuck
     key = "production"
     directoryUrl = "https://acme-v02.api.letsencrypt.org/directory"
-    email = "domainadmin@example.com"
+    email = {{ .Values.acmeEmail }}
 
     # If hostname has a CAA record set then match it against this list
     # CAA check is done before WildDuck tries to request certificate from ACME
@@ -162,7 +162,7 @@ data:
     #   Additionally, there must be at least 1 email account with "@{domain}" address.
     #   If there is no match, then TLS certificate is not generated.
 
-    smtp = {{. Values.extaDomains }}
+    smtp = {{ .Values.extaDomains }}
 
     #imap = ["imap.example.com"]
     #smtp = ["smtp.example.com"]
