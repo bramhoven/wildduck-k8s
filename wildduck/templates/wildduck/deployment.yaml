@@ -53,7 +53,7 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /users
+              path: /health
               port: http
               scheme: HTTP
               httpHeaders:
@@ -61,7 +61,7 @@ spec:
                 value:  {{ .Values.wildduck.auth.accessToken }}
           readinessProbe:
             httpGet:
-              path: /users
+              path: /health
               port: http
               scheme: HTTP
               httpHeaders:
