@@ -34,7 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.wildduck.image.pullPolicy }}
           env:
             - name: WILDDUCK_CONFIG
-            - value: /opt/config/default.toml
+              value: /opt/config/default.toml
           ports:
             - name: http
               containerPort: {{.Values.wildduck.service.httpPort}}
