@@ -8,6 +8,10 @@ fullnameOverride: ""
 mailDomain: mail.wildduck.lan
 webMailDomain: wildduck.lan
 
+extraDomains:
+  - mail01.wildduck.lan
+  - mail02.wildduck.lan
+
 dkim:
   enabled: false
   secret: a secret cat
