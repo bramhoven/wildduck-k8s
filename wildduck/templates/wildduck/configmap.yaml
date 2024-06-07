@@ -137,9 +137,7 @@ data:
     #   Additionally, there must be at least 1 email account with "@{domain}" address.
     #   If there is no match, then TLS certificate is not generated.
  
-    imap = {{ .Values.extraDomains | toJson }}
-    smtp = {{ .Values.extraDomains | toJson }}
-    pop3 = {{ .Values.extraDomains | toJson }}
+    {{ .Values.cnameMapping }}
 
     # imap = ["imap.example.com"]
     # smtp = ["smtp.example.com"]

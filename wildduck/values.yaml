@@ -9,9 +9,8 @@ mailDomain: mail.wildduck.lan
 webMailDomain: wildduck.lan
 
 acmeEmail: user@domain.lan
-extraDomains:
-  - mail01.wildduck.lan
-  - mail02.wildduck.lan
+cnameMapping: |-
+  "mail": ["mail.wildduck.lan"]
 
 dkim:
   enabled: false
