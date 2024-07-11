@@ -472,7 +472,8 @@ rspamd:
 
   service:
     type: ClusterIP
-    port: 11333
+    rspamdPort: 11333
+    httpPort: 11334
 
   resources:
     {}

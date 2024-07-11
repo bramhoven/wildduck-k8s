@@ -34,7 +34,10 @@ spec:
           imagePullPolicy: {{ .Values.rspamd.image.pullPolicy }}
           ports:
             - name: rspamd
-              containerPort: {{.Values.rspamd.service.port}}
+              containerPort: {{.Values.rspamd.service.rspamdPort}}
+              protocol: TCP
+            - name: http
+              containerPort: {{.Values.rspamd.service.httpPort}}
               protocol: TCP
           resources:
             {{- toYaml .Values.rspamd.resources | nindent 12 }}
