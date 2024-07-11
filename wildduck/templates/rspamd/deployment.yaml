@@ -43,7 +43,7 @@ spec:
             {{- toYaml .Values.rspamd.resources | nindent 12 }}
           volumeMounts:
           - name: {{ include "wildduck.rspamd.fullname" . }}-config-volume
-            mountPath: /app/rspamd/worker-normal.conf
+            mountPath: /etc/rspamd/worker-normal.conf
             subPath: worker-normal.conf
           - name: {{ include "wildduck.rspamd.fullname" . }}-override-config-volume
             mountPath: /etc/rspamd/override.d
