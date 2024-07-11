@@ -10,7 +10,7 @@ webMailDomain: wildduck.lan
 
 acmeEmail: user@domain.lan
 cnameMapping: |-
-  "mail": ["mail.wildduck.lan"]
+  "mail"= ["mail.wildduck.lan"]
 
 dkim:
   enabled: false
